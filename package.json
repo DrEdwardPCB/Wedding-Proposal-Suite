@@ -1,0 +1,26 @@
+{
+  "name": "weddingproposal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "bootstrap": "npx lerna bootstrap",
+    "build": "npx lerna run tsbuild",
+    "clean": "npx lerna run clean"
+  },
+  "author": "",
+  "license": "ISC",
+  "workspaces": [
+    "apps",
+    "backends/*",
+    "frontends/*",
+    "libs/*"
+  ],
+  "devDependencies": {
+    "lerna": "^5.5.1"
+  },
+  "dependencies": {
+    "@craco/craco": "^6.4.5"
+  }
+}
