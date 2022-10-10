@@ -15,7 +15,7 @@ function* renewSaga(action: IRenewUserAction) {
         yield put
     }
 }
-export function* userWatcher() {
+export default function* userWatcher() {
     yield takeLatest(EUserAction.USER_LOGIN, loginSaga)
     yield takeLatest(EUserAction.USER_LOGIN, renewSaga)
 
