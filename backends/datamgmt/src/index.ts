@@ -3,6 +3,8 @@ import { env } from './config/env'
 import { bootstrap } from './app'
 import { AppDataSource } from './config/ormconfig'
 import logger from './config/logger'
+import UserService from './controllers/user/user.service'
+import { find, isNil } from 'lodash';
 
 async function startServer() {
     logger.info("Server starting")
@@ -12,6 +14,14 @@ async function startServer() {
         try {
             logger.info(`initialize connection with database`)
             await AppDataSource.initialize()
+            //check whether admin user already create if not created create with env password
+            const us = new UserService
+            await us.initialize()
+            const users = await us.findAll()
+            const admin = find(users, (user) => { user?.isAdmin })
+            if (isNil(admin)) {
+                await us.create({ loginName: 'admin', password: env.ADMIN_PASSWORD, isAdmin: true, isCameraMan: true, isApp: true })
+            }
             logger.info(`successfully initialize database`)
         } catch (err) {
             logger.error(`an error has occured at initilazing database ${err}`)

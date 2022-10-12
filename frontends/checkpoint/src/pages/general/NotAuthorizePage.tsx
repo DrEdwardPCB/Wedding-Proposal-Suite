@@ -5,7 +5,7 @@ export const NotAuthorizePage = () => {
     const location = useLocation();
     const navigate = useNavigate();
     return (
-        <div className='flex-col justify-center items-center'>
+        <div className='flex-col items-center justify-center'>
             <p className='text-xl font-bold'>
                 {`you are not authorize to goto ${location}`}
             </p>

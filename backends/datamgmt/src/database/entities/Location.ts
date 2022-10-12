@@ -50,9 +50,9 @@ export class Location {
     scanTime: Date
 
     @OneToOne(() => DestinationPartial, destinationPartial => destinationPartial.location)
-    destinationPartial: DestinationPartial
+    destinationPartial?: DestinationPartial
 
     @OneToOne(() => PasswordPartial, passwordPartial => passwordPartial.location)
-    passwordPartial: PasswordPartial
+    passwordPartial?: PasswordPartial
 
 }

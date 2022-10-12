@@ -5,7 +5,7 @@ export const NotFoundPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
     return (
-        <div className='flex-col justify-center items-center'>
+        <div className='flex-col items-center justify-center'>
             <p className='text-xl font-bold'>
                 {`location ${location} not found`}
             </p>

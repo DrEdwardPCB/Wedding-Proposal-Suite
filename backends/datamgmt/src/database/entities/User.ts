@@ -22,6 +22,6 @@ export class User {
     isApp: boolean
 
     @OneToOne(() => Location, location => location.user)
-    location: Location
+    location?: Location
 
 }

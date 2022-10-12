@@ -27,7 +27,7 @@ export interface IBaseUserAction {
     type: EUserAction,
     payload?: any
 }
-export const userReducer = (state: IUserReducerState = userReducerInitialState, action: IBaseUserAction) => {
+export const userReducer = (state: IUserReducerState = userReducerInitialState, action: IBaseUserAction): IUserReducerState => {
     switch (action.type) {
         case EUserAction.USER_LOGIN: {
             return {

@@ -5,7 +5,7 @@ import { Passcode } from "../database/entities/Passcode"
 import { PasswordPartial } from "../database/entities/PasswordPartial"
 import { Photo } from "../database/entities/Photo"
 import { User } from "../database/entities/User"
-import { env } from "./env"
+import { env } from './env';
 import "reflect-metadata"
 
 const baseOrmConfig: DataSourceOptions = {
@@ -21,6 +21,5 @@ const baseOrmConfig: DataSourceOptions = {
     entities: [
         User, Location, Passcode, PasswordPartial, Photo, DestinationPartial
     ]
-
 }
 export const AppDataSource = new DataSource(baseOrmConfig)
