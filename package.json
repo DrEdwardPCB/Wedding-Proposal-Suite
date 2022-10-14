@@ -5,9 +5,10 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "bootstrap": "npx lerna bootstrap",
-    "build": "npx lerna run tsbuild",
-    "clean": "npx lerna run clean"
+    "bootstrap": "lerna bootstrap",
+    "build": "lerna run tsbuild",
+    "clean": "lerna run clean",
+    "dev": "lerna run dev"
   },
   "author": "",
   "license": "ISC",

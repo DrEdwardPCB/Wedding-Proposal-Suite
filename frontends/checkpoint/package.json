@@ -6,7 +6,9 @@
     "@craco/craco": "^6.4.5",
     "@emotion/react": "^11.10.4",
     "@emotion/styled": "^11.10.4",
+    "@hookform/resolvers": "^2.9.9",
     "@mui/material": "^5.10.8",
+    "@mui/x-data-grid": "^5.17.7",
     "axios": "^1.1.2",
     "joi": "^17.6.2",
     "lodash": "^4.17.21",
@@ -26,6 +28,7 @@
   "scripts": {
     "clean": "rm -rf node_modules; rm -rf dist",
     "start": "craco start",
+    "dev": "craco start",
     "build": "craco build",
     "test": "craco test",
     "eject": "craco eject"
