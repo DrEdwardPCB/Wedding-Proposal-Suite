@@ -9,6 +9,8 @@ export const errorHandler = (res: Response, err: unknown) => {
         return badRequest(res, err)
     } else if (err instanceof UnauthorizedError) {
         return unauthorized(res, err)
+    } else if (err instanceof UnauthorizedError) {
+        return unauthorized(res, err)
     } else {
         return internalServerError(res, err)
     }
@@ -25,5 +27,12 @@ export class UnauthorizedError extends Error {
         super(message)
         this.name = "UnauthorizedError";
         Object.setPrototypeOf(this, UnauthorizedError.prototype);
+    }
+}
+export class NotFoundError extends Error {
+    constructor(message: string) {
+        super(message)
+        this.name = "NotFoundError"
+        Object.setPrototypeOf(this, NotFoundError.prototype);
     }
 }

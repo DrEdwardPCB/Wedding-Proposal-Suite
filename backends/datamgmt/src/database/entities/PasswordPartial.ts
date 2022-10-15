@@ -6,11 +6,11 @@ export class PasswordPartial {
     @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    @OneToOne(() => Location, location => location.passwordPartial)
+    @OneToOne(() => Location, location => location.passwordPartial, { nullable: true, onDelete: "SET NULL" })
     @JoinColumn()
-    location: Location
+    location: Location | null
 
     @Column({ type: "varchar", nullable: false, length: 255 })
-    message: Location
+    message: string
 
 }

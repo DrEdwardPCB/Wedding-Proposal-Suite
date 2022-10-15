@@ -19,6 +19,15 @@ export const badRequest = (res: Response, data: any, message: string = "Bad Requ
         timestamp: datetime
     })
 }
+export const notFound = (res: Response, data: any, message: string = "Not Found", code: number = 404, datetime: Date = new Date()) => {
+    res.status(code)
+    return res.json({
+        code,
+        message,
+        data,
+        timestamp: datetime
+    })
+}
 export const unauthorized = (res: Response, data: any, message: string = "Unauthorized", code: number = 401, datetime: Date = new Date()) => {
     res.status(code)
     return res.json({

@@ -8,24 +8,24 @@ export class Location {
     @PrimaryGeneratedColumn('uuid')
     id: string
 
-    @OneToOne(() => User, (user) => user.location)
+    @OneToOne(() => User, (user) => user.location, { nullable: true, onDelete: "SET NULL" })
     @JoinColumn()
-    user: User
+    user: User | null
 
-    @Column({ type: "varchar", length: "50", nullable: true })
-
+    @Column({ type: "varchar", length: 50, nullable: true })
+    displayName: string | null
 
     @Column({ type: "text", nullable: true })
-    message: string
+    message: string | null
 
     @Column({ type: "varchar", length: 255, nullable: true })
-    photoone: string
+    photoone: string | null
 
     @Column({ type: "varchar", length: 255, nullable: true })
-    phototwo: string
+    phototwo: string | null
 
     @Column({ type: "varchar", length: 255, nullable: true })
-    photothree: string
+    photothree: string | null
 
     @Index({ spatial: true })
     @Column({
@@ -34,20 +34,20 @@ export class Location {
         srid: 4326,
         nullable: true,
     })
-    location: Point
+    location: Point | null
 
-    @OneToOne(() => Location, location => location.prev)
+    @OneToOne(() => Location, location => location.prev, { nullable: true, onDelete: "SET NULL" })
     @JoinColumn()
-    next: Location
+    next: Location | null
 
     @OneToOne(() => Location, location => location.next)
-    prev: Location
+    prev: Location | null
 
     @Column({ type: "varchar", nullable: true })
     locationDescription: string
 
     @Column({ type: "timestamp", precision: 6, nullable: true })
-    scanTime: Date
+    scanTime: Date | null
 
     @OneToOne(() => DestinationPartial, destinationPartial => destinationPartial.location)
     destinationPartial?: DestinationPartial
