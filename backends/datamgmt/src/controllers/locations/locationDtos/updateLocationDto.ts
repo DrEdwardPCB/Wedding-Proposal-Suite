@@ -12,7 +12,7 @@ export interface IUpdateLocationDto {
 
 }
 
-export const VCreateLocationDto = Joi.object({
+export const VUpdateLocationDto = Joi.object({
     displayName: Joi.string().optional().allow(""),
     photoone: Joi.string().optional(),
     phototwo: Joi.string().optional(),

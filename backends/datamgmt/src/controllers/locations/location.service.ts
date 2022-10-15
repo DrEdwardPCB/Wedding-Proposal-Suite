@@ -9,16 +9,15 @@ import { reconnectDb } from "../../utils/dbHelper";
 import { Location } from '../../database/entities/Location';
 import { Point } from 'geojson';
 import dayjs from "dayjs";
+import { baseService } from '../../utils/serviceHelper';
 
 
-export default class LocationService {
-    private ds: DataSource
+export default class LocationService extends baseService {
+    protected ds: DataSource
     private LocationRepo: Repository<Location>
     private UserRepo: Repository<User>
-    private initialized: boolean = false
-    constructor() {
-
-    }
+    public initialized: boolean = false
+    protected name: string = "LocationService"
     initialize = async () => {
         await reconnectDb()
         this.ds = AppDataSource

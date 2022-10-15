@@ -5,14 +5,14 @@ import { AppDataSource } from "../../config/ormconfig";
 import { reconnectDb } from "../../utils/dbHelper";
 import { Passcode } from '../../database/entities/Passcode';
 import { ICreatePasscodeDto } from './dtos/createPasscodeDto';
+import { baseService } from '../../utils/serviceHelper';
 
-export default class PasscodeService {
-    private ds: DataSource
+export default class PasscodeService extends baseService {
+    protected ds: DataSource
     private PasscodeRepo: Repository<Passcode>
-    private initialized: boolean = false
-    constructor() {
+    public initialized: boolean = false
+    protected name: string = "PasscodeService"
 
-    }
     initialize = async () => {
         await reconnectDb()
         this.ds = AppDataSource

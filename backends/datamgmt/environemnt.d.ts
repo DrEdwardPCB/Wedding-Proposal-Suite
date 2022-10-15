@@ -12,6 +12,7 @@ declare global {
             DB_USER: string
             DB_PASSWORD: string
             ADMIN_PASSWPRD: string
+            SERVER_FULL_ADDRESS: string
         }
     }
 }

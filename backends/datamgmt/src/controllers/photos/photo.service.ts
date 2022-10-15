@@ -3,14 +3,15 @@ import { AppDataSource } from "../../config/ormconfig";
 import { reconnectDb } from '../../utils/dbHelper';
 import { Photo } from '../../database/entities/Photo';
 import { ICreatePhotoDto } from './photoDtos/createPhotoDto';
+import { baseService } from '../../utils/serviceHelper';
 
-export default class PhotoService {
-    private ds: DataSource
+export default class PhotoService extends baseService {
+    protected ds: DataSource
     private PhotoRepo: Repository<Photo>
-    private initialized: boolean = false
-    constructor() {
+    public initialized: boolean = false
+    protected name: string = "PhotoService"
 
-    }
+
     initialize = async () => {
         await reconnectDb()
         this.ds = AppDataSource

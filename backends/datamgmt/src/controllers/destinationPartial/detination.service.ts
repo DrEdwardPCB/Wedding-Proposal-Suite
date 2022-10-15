@@ -7,15 +7,14 @@ import { ICreateDestinationPartialDto } from './destinationPartialDtos/createDes
 import { IUpdateDestinationPartialDto } from "./destinationPartialDtos/updaateDestinationPartialDto";
 import { reconnectDb } from '../../utils/dbHelper';
 import { NotFoundError } from '../../utils/ErrorHandler';
+import { baseService } from '../../utils/serviceHelper';
 
-export default class PasscodePartialService {
-    private ds: DataSource
+export default class DestinationPartialService extends baseService {
+    protected ds: DataSource
     private DestinationPartialRepo: Repository<DestinationPartial>
     private LocationRepo: Repository<Location>
-    private initialized: boolean = false
-    constructor() {
-
-    }
+    public initialized: boolean = false
+    protected name: string = "DestinationPartialService"
     initialize = async () => {
         await reconnectDb()
         this.ds = AppDataSource

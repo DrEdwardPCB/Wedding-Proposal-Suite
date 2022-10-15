@@ -7,15 +7,15 @@ import { ICreatePasscodePartialDto } from './passcodePartialDtos/createPasscodeP
 import { IUpdatePasscodePartialDto } from "./passcodePartialDtos/updatePasscodePartialDto";
 import { reconnectDb } from '../../utils/dbHelper';
 import { NotFoundError } from '../../utils/ErrorHandler';
+import { baseService } from '../../utils/serviceHelper';
 
-export default class PasscodePartialService {
-    private ds: DataSource
+export default class PasscodePartialService extends baseService {
+    protected ds: DataSource
     private PasswordPartialRepo: Repository<PasswordPartial>
     private LocationRepo: Repository<Location>
-    private initialized: boolean = false
-    constructor() {
+    public initialized: boolean = false
+    protected name: string = "PasscodePartialService"
 
-    }
     initialize = async () => {
         await reconnectDb()
         this.ds = AppDataSource

@@ -6,14 +6,14 @@ import { reconnectDb } from "../../utils/dbHelper";
 import { ICreateUserDto } from './userDtos/createUserDto';
 import bcrypt from 'bcrypt';
 import { IUpdateUserDto } from "./userDtos/updateUserDto";
+import { baseService } from '../../utils/serviceHelper';
 
-export default class UserService {
-    private ds: DataSource
+export default class UserService extends baseService {
+    protected ds: DataSource
     private UserRepo: Repository<User>
-    private initialized: boolean = false
-    constructor() {
+    public initialized: boolean = false
+    protected name: string = "UserService"
 
-    }
     initialize = async () => {
         await reconnectDb()
         this.ds = AppDataSource
