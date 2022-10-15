@@ -1,4 +1,5 @@
 import { isNil, omit } from 'lodash';
+import { reconnectDb } from "./../../utils/dbHelper";
 import { Repository } from 'typeorm';
 import { User } from '../../database/entities/User';
 import { baseService } from '../../utils/serviceHelper';

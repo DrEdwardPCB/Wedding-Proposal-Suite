@@ -1,11 +1,15 @@
+//@ts-nocheck
 import { EUserAction } from "../reducers/types";
-import { takeLatest, put } from 'redux-saga/effects'
-import { ILoginUserAction, IRenewUserAction, RenewFail } from '../actions/userActions';
+import { takeLatest, put, call } from 'redux-saga/effects'
+import { ILoginUserAction, IRenewUserAction, LoginSuccess, RenewFail, LoginFail } from '../actions/userActions';
+import { login } from "../../apis/auth";
+
 function* loginSaga(action: ILoginUserAction) {
     try {
-        yield put
+        const response = yield call(login, action.payload)
+        yield put(LoginSuccess(response.data.data.user, response.data.data.token))
     } catch (err) {
-        yield put
+        yield put(LoginFail(err))
     }
 }
 function* renewSaga(action: IRenewUserAction) {

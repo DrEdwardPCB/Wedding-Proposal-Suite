@@ -3,6 +3,7 @@ import express from 'express';
 import cors from 'cors'
 import { logger } from 'express-winston';
 import { accessLoggerConfig } from './config/logger';
+import authController from './controllers/auth/auth.controller';
 export const bootstrap = () => {
     const app = express()
     app.use(cors())
@@ -10,5 +11,6 @@ export const bootstrap = () => {
     app.use(bodyParser.json())
     app.use(logger(accessLoggerConfig))
     app.use('/img', express.static("uploads"))
+    app.use('/auth', authController)
     return app
 }

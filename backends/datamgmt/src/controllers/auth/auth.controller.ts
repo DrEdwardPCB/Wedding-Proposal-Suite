@@ -12,8 +12,11 @@ authController.post("/login", async function (req, res) {
     logger.info(`start login service`)
     try {
         const data = req.body
+        console.log(data)
         const validatedData: ILoginDto = await VLoginDto.validateAsync(data)
+        console.log(validatedData)
         const as = new AuthService()
+        await as.superInitialize()
         const result = await as.login(validatedData)
         return success(res, result)
     } catch (err) {

@@ -1,13 +1,11 @@
+import { ILoginDto } from '../../components/common/loginPageForm';
 import { EUserAction } from '../reducers/types';
 import { IUser, IBaseUserAction } from '../reducers/userReducer';
 export interface ILoginUserAction extends IBaseUserAction {
-    payload: {
-        loginName: string,
-        password: string
-    }
+    payload: ILoginDto
 }
-export function Login(loginName: string, password: string): ILoginUserAction {
-    return { type: EUserAction.USER_LOGIN, payload: { loginName, password } }
+export function LoginAction(payload: ILoginDto): ILoginUserAction {
+    return { type: EUserAction.USER_LOGIN, payload }
 }
 export interface ISuccessUserAction extends IBaseUserAction {
     payload: {
@@ -32,7 +30,7 @@ export interface IRenewUserAction extends IBaseUserAction {
         token: string
     }
 }
-export function Renew(token: string): IRenewUserAction {
+export function RenewAction(token: string): IRenewUserAction {
     return { type: EUserAction.USER_RENEW, payload: { token } }
 }
 export function RenewSuccess(user: IUser, token: string): ISuccessUserAction {
