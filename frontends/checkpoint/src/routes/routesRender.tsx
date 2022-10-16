@@ -12,6 +12,8 @@ import { PasswordPage } from "../pages/admin/PasswordPage";
 import { DestinationPage } from "../pages/admin/DestinationPage";
 import { PasscodePage } from "../pages/admin/PasscodePage";
 import { PhotosPage } from "../pages/admin/PhotosPage";
+import { CheckpointLayout } from "./Layout/CheckpointLayout";
+import { CheckpointHomepage } from "../pages/checkpoint/HomePage";
 export const RouterRender = () => {
     return (
         <BrowserRouter>
@@ -43,8 +45,14 @@ export const RouterRender = () => {
                 <Route path='/camman'>
                     <Route path=''></Route>
                 </Route>
-                <Route path='/checkpoint'>
-                    <Route path=''></Route>
+                <Route
+                    path='/checkpoint'
+                    element={<CheckpointLayout></CheckpointLayout>}>
+                    <Route
+                        path=''
+                        element={
+                            <CheckpointHomepage></CheckpointHomepage>
+                        }></Route>
                     <Route path='qrcode'></Route>
                     <Route path='edit'></Route>
                 </Route>

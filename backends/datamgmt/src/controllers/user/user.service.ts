@@ -64,10 +64,10 @@ export default class UserService extends baseService {
         let updateUser: User = {
             ...user,
         }
-        if (!isNil(updateUserDto.loginName)) {
+        if (!isNil(updateUserDto.loginName) && updateUserDto.loginName !== '') {
             updateUser.loginName = updateUserDto.loginName
         }
-        if (!isNil(updateUserDto.password)) {
+        if (!isNil(updateUserDto.password) && updateUserDto.password !== '') {
             updateUser.password = await bcrypt.hash(updateUserDto.password, 10)
         }
         updateUser.isAdmin = updateUserDto.isAdmin

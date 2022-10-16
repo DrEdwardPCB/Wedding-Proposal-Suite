@@ -18,8 +18,10 @@ async function startServer() {
             const us = new UserService
             await us.initialize()
             const users = await us.findAll()
-            const admin = find(users, (user) => { user?.isAdmin })
+            const admin = find(users, (user) => { return user?.isAdmin })
+            console.log(admin)
             if (isNil(admin)) {
+                console.log('trigger add admin')
                 await us.create({ loginName: 'admin', password: env.ADMIN_PASSWORD, isAdmin: true, isCameraMan: true, isApp: true })
             }
             logger.info(`successfully initialize database`)
