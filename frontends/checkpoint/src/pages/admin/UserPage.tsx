@@ -24,29 +24,29 @@ export const UserPage = () => {
         () => [
             {
                 field: "id",
-                displayName: "ID",
+                headerName: "ID",
                 flex: 1,
             },
             {
                 field: "loginName",
-                displayName: "loginName",
+                headerName: "loginName",
                 flex: 1,
             },
             {
                 field: "isCameraMan",
-                displayName: "is camera man?",
+                headerName: "is camera man?",
                 flex: 1,
                 type: "boolean",
             },
             {
                 field: "isAdmin",
-                displayName: "is admin?",
+                headerName: "is admin?",
                 flex: 1,
                 type: "boolean",
             },
             {
                 field: "isApp",
-                displayName: "is App?",
+                headerName: "is App?",
                 flex: 1,
                 type: "boolean",
             },

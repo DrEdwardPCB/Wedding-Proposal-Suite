@@ -12,9 +12,9 @@ import { useMemo } from "react";
 import { DataGrid } from "@mui/x-data-grid/DataGrid";
 import { GridColumns } from "@mui/x-data-grid/models";
 import { IIdable } from "./commonInterface";
-import { cloneDeep } from "lodash";
+import { cloneDeep, get } from "lodash";
 
-export interface IRelationManagerProps<S extends IIdable, M extends IIdable> {
+export interface IRelationManagerProps<S, M extends IIdable> {
     open: boolean;
     closeHandler: () => void;
     title: string;
@@ -22,12 +22,12 @@ export interface IRelationManagerProps<S extends IIdable, M extends IIdable> {
     dissociatedTitle: string;
     options: M[];
     optionCol: GridColumns;
-    parent: S;
+    parent: S | null;
     parentOptionExtractor: (parent: S) => M[];
     associateFnc: (parent: S, option: M) => any;
     dissociateFnc: (parent: S, option: M) => any;
 }
-export const RelationManager = <S extends IIdable, M extends IIdable>(
+export const RelationManager = <S, M extends IIdable>(
     props: IRelationManagerProps<S, M>
 ) => {
     const {
@@ -45,7 +45,10 @@ export const RelationManager = <S extends IIdable, M extends IIdable>(
     } = props;
 
     const associatedRow = useMemo(() => {
-        return parentOptionExtractor(parent);
+        if (parent) {
+            return parentOptionExtractor(parent);
+        }
+        return [];
     }, [parent, parentOptionExtractor]);
 
     const associatedCol = useMemo(() => {
@@ -58,12 +61,16 @@ export const RelationManager = <S extends IIdable, M extends IIdable>(
                     return (
                         <IconButton
                             onClick={() => {
-                                dissociateFnc(
-                                    parent,
-                                    options.find(
-                                        (e) => e.id === params.value
-                                    ) as NonNullable<M>
-                                );
+                                if (parent) {
+                                    dissociateFnc(
+                                        parent,
+                                        options.find(
+                                            (e) =>
+                                                get(e, "id", null) ===
+                                                params.value
+                                        ) as NonNullable<M>
+                                    );
+                                }
                             }}>
                             <Icon className='text-red-400'>remove</Icon>
                         </IconButton>
@@ -77,8 +84,11 @@ export const RelationManager = <S extends IIdable, M extends IIdable>(
     }, [optionCol, parent, dissociateFnc]);
 
     const dissociatedRow = useMemo(() => {
-        const assoId = associatedRow.map((e) => e.id);
-        return options.filter((e) => !assoId.includes(e.id));
+        if (associatedRow) {
+            const assoId = associatedRow.map((e) => e?.id);
+            return options.filter((e) => !assoId.includes(e?.id));
+        }
+        return [];
     }, [associatedRow, options]);
     const dissociatedCol = useMemo(() => {
         const dissoButton: GridColDef = {
@@ -89,12 +99,15 @@ export const RelationManager = <S extends IIdable, M extends IIdable>(
                 return (
                     <IconButton
                         onClick={() => {
-                            associateFnc(
-                                parent,
-                                options.find(
-                                    (e) => e.id === params.value
-                                ) as NonNullable<M>
-                            );
+                            if (parent) {
+                                associateFnc(
+                                    parent,
+                                    options.find(
+                                        (e) =>
+                                            get(e, "id", null) === params.value
+                                    ) as NonNullable<M>
+                                );
+                            }
                         }}>
                         <Icon className='text-green-400'>add</Icon>
                     </IconButton>
@@ -107,8 +120,8 @@ export const RelationManager = <S extends IIdable, M extends IIdable>(
     }, [optionCol, parent, associateFnc]);
 
     return (
-        <Dialog open={open}>
-            <DialogTitle></DialogTitle>
+        <Dialog open={open} maxWidth='md' fullWidth={true}>
+            <DialogTitle>{title}</DialogTitle>
             <DialogContent>
                 <div className='flex flex-col gap-4'>
                     <div>

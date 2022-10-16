@@ -30,7 +30,7 @@ export default class LocationService extends baseService {
         if (!this.initialized) {
             throw new Error("user service not init")
         }
-        const locations = await this.LocationRepo.find()
+        const locations = await this.LocationRepo.find({ relations: { user: true, next: true, prev: true } })
         return locations
     }
     findOne = async (id: string): Promise<Location | null> => {

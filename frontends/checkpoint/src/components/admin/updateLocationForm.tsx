@@ -2,6 +2,7 @@ import { useForm, Controller } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
 import {
     ICreateUserDto,
+    IUpdateLocationDto,
     IUpdateUserDto,
     VCreateUserDto,
     VUpdateUserDto,
@@ -22,8 +23,8 @@ import { toast } from "react-toastify";
 import { RootType } from "../../redux/reducers/rootReducers";
 import { useSelector } from "react-redux";
 import { baseResponse } from "../common/commonInterface";
-import { User } from "../common/entityInterface";
-export interface IUpdateUserFormProps {
+import { Location } from "../common/entityInterface";
+export interface IUpdateLocationProps {
     open: boolean;
     handleClose: React.Dispatch<React.SetStateAction<boolean>>;
     title: string;
@@ -31,19 +32,19 @@ export interface IUpdateUserFormProps {
     showWebRequest: (
         id: string,
         token: string
-    ) => Promise<AxiosResponse<baseResponse<Partial<User>>, any>>;
+    ) => Promise<AxiosResponse<baseResponse<Location>, any>>;
     updateWebRequest: (
         id: string,
         value: any,
         token: string
-    ) => Promise<AxiosResponse<baseResponse<Partial<User>>, any>>;
+    ) => Promise<AxiosResponse<baseResponse<Location>, any>>;
     deleteWebRequest: (
         id: string,
         token: string
     ) => Promise<AxiosResponse<baseResponse<any>, any>>;
     reload: () => void;
 }
-export const UpdateUserForm = (props: IUpdateUserFormProps) => {
+export const UpdateLocationForm = (props: IUpdateLocationProps) => {
     const { token } = useSelector((state: RootType) => state.user);
     const {
         id,
@@ -64,30 +65,39 @@ export const UpdateUserForm = (props: IUpdateUserFormProps) => {
         reset,
         handleSubmit,
         setValue,
-    } = useForm<IUpdateUserDto>({
+    } = useForm<IUpdateLocationDto>({
         resolver: joiResolver(VUpdateUserDto),
         defaultValues: {
-            loginName: "",
-            password: "",
-            isCameraMan: false,
-            isAdmin: false,
-            isApp: false,
+            displayName: "",
+            message: "",
+            location: {
+                lat: 22.302711,
+                long: 114.177216,
+            },
+            locationDescription: "",
         },
     });
     const resetToEntry = async () => {
         const response = await showWebRequest(id, token as NonNullable<string>);
         const entry = response.data.data;
-        setValue("loginName", entry.loginName);
-        setValue("isAdmin", entry.isAdmin as NonNullable<boolean>);
-        setValue("isCameraMan", entry.isCameraMan as NonNullable<boolean>);
-        setValue("isApp", entry.isApp as NonNullable<boolean>);
+        setValue("displayName", entry?.displayName ?? "");
+        setValue("message", entry?.message ?? "");
+        setValue(
+            "location.lat",
+            entry?.location?.coordinates?.[1] ?? 22.302711
+        );
+        setValue(
+            "location.long",
+            entry?.location?.coordinates?.[0] ?? 114.1777216
+        );
+        setValue("locationDescription", entry?.locationDescription ?? "");
     };
     useEffect(() => {
         if (open && id) {
             resetToEntry();
         }
     }, [open, id]);
-    const localHandleSubmit = async (value: IUpdateUserDto) => {
+    const localHandleSubmit = async (value: IUpdateLocationDto) => {
         setLoading(true);
         console.log(getValues());
         try {
@@ -141,7 +151,7 @@ export const UpdateUserForm = (props: IUpdateUserFormProps) => {
                     <div className='flex flex-col gap-4 p-4'>
                         <Controller
                             control={control}
-                            name='loginName'
+                            name='displayName'
                             render={({ field: { onChange, value } }) => {
                                 return (
                                     <TextField
@@ -150,15 +160,74 @@ export const UpdateUserForm = (props: IUpdateUserFormProps) => {
                                             onChange(e.target.value);
                                         }}
                                         variant='outlined'
-                                        label='Login name'></TextField>
+                                        label='display name'></TextField>
                                 );
                             }}></Controller>
                         <p className='text-red-400'>
-                            {errors.loginName?.message ?? ""}
+                            {errors.displayName?.message ?? ""}
                         </p>
                         <Controller
                             control={control}
-                            name='password'
+                            name='message'
+                            render={({ field: { onChange, value } }) => {
+                                return (
+                                    <TextField
+                                        value={value}
+                                        multiline={true}
+                                        minRows={3}
+                                        onChange={(e) => {
+                                            onChange(e.target.value);
+                                        }}
+                                        variant='outlined'
+                                        label='message'></TextField>
+                                );
+                            }}></Controller>
+                        <p className='text-red-400'>
+                            {errors.message?.message ?? ""}
+                        </p>
+                        <Controller
+                            control={control}
+                            name='location.lat'
+                            render={({ field: { onChange, value } }) => {
+                                return (
+                                    <TextField
+                                        value={value}
+                                        type='number'
+                                        onBlur={(e) => {
+                                            onChange(
+                                                parseFloat(e.target.value)
+                                            );
+                                        }}
+                                        variant='outlined'
+                                        label='Lat'></TextField>
+                                );
+                            }}></Controller>
+                        <p className='text-red-400'>
+                            {errors?.location?.lat?.message ?? ""}
+                        </p>
+                        <Controller
+                            control={control}
+                            name='location.long'
+                            render={({ field: { onChange, value } }) => {
+                                return (
+                                    <TextField
+                                        value={value}
+                                        type='number'
+                                        onBlur={(e) => {
+                                            onChange(
+                                                parseFloat(e.target.value)
+                                            );
+                                        }}
+                                        variant='outlined'
+                                        label='Long'></TextField>
+                                );
+                            }}></Controller>
+                        <p className='text-red-400'>
+                            {errors?.location?.long?.message ?? ""}
+                        </p>
+                        <Controller
+                            control={control}
+                            name='locationDescription'
                             render={({ field: { onChange, value } }) => {
                                 return (
                                     <TextField
@@ -167,66 +236,11 @@ export const UpdateUserForm = (props: IUpdateUserFormProps) => {
                                             onChange(e.target.value);
                                         }}
                                         variant='outlined'
-                                        type={"password"}
-                                        label='password'></TextField>
+                                        label='locationDescription'></TextField>
                                 );
                             }}></Controller>
                         <p className='text-red-400'>
-                            {errors.password?.message ?? ""}
-                        </p>
-                        <Controller
-                            control={control}
-                            name='isAdmin'
-                            render={({ field: { onChange, value } }) => {
-                                return (
-                                    <div className='flex items-center'>
-                                        <p>is admin?</p>
-                                        <Checkbox
-                                            checked={value}
-                                            onChange={(e) => {
-                                                onChange(e.target.checked);
-                                            }}></Checkbox>
-                                    </div>
-                                );
-                            }}></Controller>
-                        <p className='text-red-400'>
-                            {errors.isAdmin?.message ?? ""}
-                        </p>
-                        <Controller
-                            control={control}
-                            name='isApp'
-                            render={({ field: { onChange, value } }) => {
-                                return (
-                                    <div className='flex items-center'>
-                                        <p>is app?</p>
-                                        <Checkbox
-                                            checked={value}
-                                            onChange={(e) => {
-                                                onChange(e.target.checked);
-                                            }}></Checkbox>
-                                    </div>
-                                );
-                            }}></Controller>
-                        <p className='text-red-400'>
-                            {errors.isApp?.message ?? ""}
-                        </p>
-                        <Controller
-                            control={control}
-                            name='isCameraMan'
-                            render={({ field: { onChange, value } }) => {
-                                return (
-                                    <div className='flex items-center'>
-                                        <p>is camera man?</p>
-                                        <Checkbox
-                                            checked={value}
-                                            onChange={(e) => {
-                                                onChange(e.target.checked);
-                                            }}></Checkbox>
-                                    </div>
-                                );
-                            }}></Controller>
-                        <p className='text-red-400'>
-                            {errors.isCameraMan?.message ?? ""}
+                            {errors.locationDescription?.message ?? ""}
                         </p>
                     </div>
                 </DialogContent>
