@@ -47,7 +47,7 @@ AdminPhotoContoller.post("/", upload.array('photos', 12), async (req: Request, r
         await ps.superInitialize()
         const fileUploadPromise = (get(req.files, 'photos', []) as File[]).map(e => {
             return new Promise((resolve, reject) => {
-                const fileDto = { photo: `${env.SERVER_FULL_ADDRESS}/img/${e.name}` } as ICreatePhotoDto
+                const fileDto = { photo: `/img/${e.name}` } as ICreatePhotoDto
                 ps.create(fileDto).then(result => {
                     logger.info(result)
                     resolve

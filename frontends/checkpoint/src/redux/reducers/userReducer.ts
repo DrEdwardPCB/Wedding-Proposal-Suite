@@ -93,6 +93,12 @@ export const userReducer = (state: IUserReducerState = userReducerInitialState, 
         case EUserAction.USER_LOGOUT: {
             return userReducerInitialState
         }
+        case EUserAction.CLEAR_ERROR: {
+            return {
+                ...state,
+                isError: false
+            }
+        }
         default: {
             return state
         }

@@ -32,7 +32,9 @@ export default class AuthService extends baseService {
                 throw new ValidationError("password incorrect")
             }
 
-            const token = await jwt.sign(omit(user, ['password', 'location']), Buffer.from(env.JWT_SECRET))
+            const token = await jwt.sign({
+                ...omit(user, ['password', 'location']), exp: Math.floor(Date.now() / 1000) + (60 * 60 * 72)
+            }, Buffer.from(env.JWT_SECRET))
             const returnObj: ILoginReturnDto = {
                 user: omit(user, ['password', 'location']),
                 token: token
@@ -53,7 +55,9 @@ export default class AuthService extends baseService {
             if (isNil(user)) {
                 throw new ValidationError("user not found")
             }
-            const token = await jwt.sign(omit(user, ['password', 'location']), Buffer.from(env.JWT_SECRET))
+            const token = await jwt.sign({
+                ...omit(user, ['password', 'location']), exp: Math.floor(Date.now() / 1000) + (60 * 60 * 72)
+            }, Buffer.from(env.JWT_SECRET))
             const returnObj: IRenewReturnDto = {
                 token: token
             }

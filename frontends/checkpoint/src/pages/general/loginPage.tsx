@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { ILoginDto, VLoginDto } from "../../components/common/loginPageForm";
 import { joiResolver } from "@hookform/resolvers/joi";
 import { RootType } from "../../redux/reducers/rootReducers";
-import { LoginAction } from "../../redux/actions/userActions";
+import { ClearErrorAction, LoginAction } from "../../redux/actions/userActions";
 import { useEffect } from "react";
 import { toast } from "react-toastify";
 export const LoginPage = () => {
@@ -31,8 +31,12 @@ export const LoginPage = () => {
         dispatch(LoginAction(value));
     };
     useEffect(() => {
-        if (isSuccess) {
+        if (isSuccess && user) {
             toast.success("login success");
+            if (user.isAdmin) navigate("/admin");
+            else {
+                navigate("/checkpoint");
+            }
         } else if (isError) {
             console.log(error);
             //@ts-ignore
@@ -43,8 +47,9 @@ export const LoginPage = () => {
                     error?.error?.message ??
                     error
             );
+            dispatch(ClearErrorAction());
         }
-    }, [isSuccess, isError, error]);
+    }, [isSuccess, isError, error, user]);
     useEffect(() => {
         console.log(user);
         console.log(token);

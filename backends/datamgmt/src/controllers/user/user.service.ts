@@ -21,13 +21,13 @@ export default class UserService extends baseService {
         this.UserRepo = this.ds.getRepository(User)
     }
 
-    findAll = async (): Promise<Partial<User[]>> => {
+    findAll = async (omitPassword: boolean = true): Promise<Partial<User>[]> => {
         if (!this.initialized) {
             throw new Error("user service not init")
         }
         const users = await this.UserRepo.find()
         const nerfedUsers = users.map(e => omit(e, 'password'))
-        return users
+        return omitPassword ? nerfedUsers : users
     }
     findOne = async (id: string, omitPassword: boolean = true): Promise<Partial<User | null>> => {
         if (!this.initialized) {
@@ -64,10 +64,10 @@ export default class UserService extends baseService {
         let updateUser: User = {
             ...user,
         }
-        if (!isNull(updateUserDto.loginName)) {
+        if (!isNil(updateUserDto.loginName)) {
             updateUser.loginName = updateUserDto.loginName
         }
-        if (!isNull(updateUserDto.password)) {
+        if (!isNil(updateUserDto.password)) {
             updateUser.password = await bcrypt.hash(updateUserDto.password, 10)
         }
         updateUser.isAdmin = updateUserDto.isAdmin

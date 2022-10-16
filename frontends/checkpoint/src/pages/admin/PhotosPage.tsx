@@ -1,1 +1,3 @@
-export const PhotosPage = () => {};
+export const PhotosPage = () => {
+    return <div></div>;
+};

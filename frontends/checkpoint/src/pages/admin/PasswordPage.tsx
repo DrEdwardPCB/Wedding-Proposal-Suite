@@ -1,1 +1,3 @@
-export const PasscodePage = () => {};
+export const PasswordPage = () => {
+    return <div></div>;
+};

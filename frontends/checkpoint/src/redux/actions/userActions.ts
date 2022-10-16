@@ -40,6 +40,9 @@ export function RenewFail(error: unknown): IFailUserAction {
     return { type: EUserAction.USER_RENEW_FAIL, payload: { error } }
 }
 
-export function Logout(): IBaseUserAction {
+export function LogoutAction(): IBaseUserAction {
     return { type: EUserAction.USER_LOGOUT }
+}
+export function ClearErrorAction(): IBaseUserAction {
+    return { type: EUserAction.CLEAR_ERROR }
 }
