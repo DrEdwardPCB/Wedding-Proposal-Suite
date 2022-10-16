@@ -139,7 +139,7 @@ export const LocationPage = () => {
             },
             {
                 field: "scanTime",
-                displayName: "Photo 3",
+                displayName: "Scan At",
                 flex: 1,
                 renderCell: (params) => {
                     if (isNil(params.value)) {

@@ -21,7 +21,7 @@ import { CreatePhotoForm } from "../../components/admin/createPhotoForm";
 import { DeletePhotoForm } from "../../components/admin/deletePhotoForm";
 import { getPhoto } from "../../apis/admin";
 
-export const PhotosPage = () => {
+export const CammanPhotosPage = () => {
     const { token } = useSelector((state: RootType) => state.user);
     const [rows, setRows] = useState<Photo[]>([]);
     const [selectedId, setSelectedId] = useState("");

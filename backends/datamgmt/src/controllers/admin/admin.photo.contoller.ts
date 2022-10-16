@@ -8,7 +8,9 @@ import multer from 'multer'
 import { get } from "lodash";
 import { env } from "../../config/env";
 import { ICreatePhotoDto } from "../photos/photoDtos/createPhotoDto";
-const upload = multer({ dest: "uploads/" })
+const upload = multer({
+    dest: "uploads/",
+})
 const AdminPhotoContoller = Router()
 AdminPhotoContoller.get("/", async (req: Request, res: Response) => {
     logger.info("start:admin getAll photo")
@@ -37,6 +39,16 @@ AdminPhotoContoller.get("/:id", async (req: Request, res: Response) => {
     }
 })
 
+export interface ImulterFileType {
+    fieldname: string
+    originalname: string,
+    encoding: string,
+    mimetype: string,
+    destination: string,
+    filename: string,
+    path: string,
+    size: number
+}
 
 
 AdminPhotoContoller.post("/", upload.array('photos', 12), async (req: Request, res: Response) => {
@@ -45,12 +57,14 @@ AdminPhotoContoller.post("/", upload.array('photos', 12), async (req: Request, r
 
         const ps = new PhotoService()
         await ps.superInitialize()
-        const fileUploadPromise = (get(req.files, 'photos', []) as File[]).map(e => {
+        //@ts-ignore
+        console.log(req.files)
+        const fileUploadPromise = (get(req, 'files', []) as ImulterFileType[]).filter(e => e.fieldname === "photos").map((e) => {
             return new Promise((resolve, reject) => {
-                const fileDto = { photo: `/img/${e.name}` } as ICreatePhotoDto
+                const fileDto = { photo: `/img/${e.filename}` } as ICreatePhotoDto
                 ps.create(fileDto).then(result => {
                     logger.info(result)
-                    resolve
+                    resolve(null)
                 }).catch(error => {
                     logger.error(error)
                     reject(error)

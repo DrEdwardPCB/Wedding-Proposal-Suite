@@ -1,8 +1,7 @@
 import axios, { AxiosResponse } from "axios";
-import { ILoginDto } from "../components/common/loginPageForm";
 import { env } from "../env";
 import Joi from 'joi'
-import { User, Location, DestinationPartial, PasswordPartial, Passcode } from "../components/common/entityInterface";
+import { User, Location, DestinationPartial, PasswordPartial, Passcode, Photo } from "../components/common/entityInterface";
 import { baseResponse } from "../components/common/commonInterface";
 const adminHttp = axios.create({ baseURL: `${env.REACT_APP_DATAMGMT_BASEURL}/admin` })
 
@@ -215,3 +214,15 @@ export const dissoUser = async (id: string, token: string): Promise<AxiosRespons
 
 
 //photo
+export const getPhotos = async (token: string): Promise<AxiosResponse<baseResponse<Photo[]>, any>> => {
+    return adminHttp.get(`/photo`, { headers: { "Authorization": `Bearer ${token}` } })
+}
+export const getPhoto = async (id: string, token: string): Promise<AxiosResponse<baseResponse<Photo>, any>> => {
+    return adminHttp.get(`/photo/${id}`, { headers: { "Authorization": `Bearer ${token}` } })
+}
+export const createPhoto = async (payload: FormData, token: string): Promise<AxiosResponse<baseResponse<Photo>, any>> => {
+    return adminHttp.post(`/photo`, payload, { headers: { "Authorization": `Bearer ${token}`, 'Content-Type': `multipart/form-data` } })
+}
+export const deletePhoto = async (id: string, token: string): Promise<AxiosResponse<baseResponse<any>, any>> => {
+    return adminHttp.delete(`/photo/${id}`, { headers: { "Authorization": `Bearer ${token}` } })
+}
