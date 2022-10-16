@@ -14,6 +14,8 @@ import { PasscodePage } from "../pages/admin/PasscodePage";
 import { PhotosPage } from "../pages/admin/PhotosPage";
 import { CheckpointLayout } from "./Layout/CheckpointLayout";
 import { CheckpointHomepage } from "../pages/checkpoint/HomePage";
+import { EditPage } from "../pages/checkpoint/EditPage";
+import { QRCodePage } from "../pages/checkpoint/QRCodePage";
 export const RouterRender = () => {
     return (
         <BrowserRouter>
@@ -53,8 +55,10 @@ export const RouterRender = () => {
                         element={
                             <CheckpointHomepage></CheckpointHomepage>
                         }></Route>
-                    <Route path='qrcode'></Route>
-                    <Route path='edit'></Route>
+                    <Route
+                        path='qrcode'
+                        element={<QRCodePage></QRCodePage>}></Route>
+                    <Route path='edit' element={<EditPage></EditPage>}></Route>
                 </Route>
                 <Route path='/'>
                     <Route path='' element={<HomePage></HomePage>}></Route>

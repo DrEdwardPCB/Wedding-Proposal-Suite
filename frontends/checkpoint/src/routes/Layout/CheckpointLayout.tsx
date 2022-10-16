@@ -12,7 +12,11 @@ export const CheckpointLayout = () => {
         (state: RootType) => state.user
     );
     const navigate = useNavigate();
-    const navItem: { name: string; nav: string }[] = [];
+    const navItem: { name: string; nav: string }[] = [
+        { name: "home", nav: "/checkpoint" },
+        { name: "edit", nav: "/checkpoint/edit" },
+        { name: "qrcode", nav: "/checkpoint/qrcode" },
+    ];
     //filter out non admin non login user
     useEffect(() => {
         if (!isLoggedin || isNil(user)) {
