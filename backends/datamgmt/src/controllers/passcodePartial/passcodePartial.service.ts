@@ -95,7 +95,7 @@ export default class PasscodePartialService extends baseService {
         if (isNull(oriPasswordPartial)) {
             throw new NotFoundError("one or more id is not found in an association cross")
         }
-        oriPasswordPartial.location = undefined
+        oriPasswordPartial.location = null
         let result = await this.PasswordPartialRepo.save(oriPasswordPartial)
         return result
     }

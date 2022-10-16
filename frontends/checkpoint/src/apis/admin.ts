@@ -2,7 +2,7 @@ import axios, { AxiosResponse } from "axios";
 import { ILoginDto } from "../components/common/loginPageForm";
 import { env } from "../env";
 import Joi from 'joi'
-import { User, Location } from "../components/common/entityInterface";
+import { User, Location, DestinationPartial, PasswordPartial, Passcode } from "../components/common/entityInterface";
 import { baseResponse } from "../components/common/commonInterface";
 const adminHttp = axios.create({ baseURL: `${env.REACT_APP_DATAMGMT_BASEURL}/admin` })
 
@@ -49,11 +49,97 @@ export const updateUser = async (id: string, payload: IUpdateUserDto, token: str
 export const deleteUser = async (id: string, token: string): Promise<AxiosResponse<baseResponse<any>, any>> => {
     return adminHttp.delete(`/user/${id}`, { headers: { "Authorization": `Bearer ${token}` } })
 }
+
+
 //destination partial
+export const getDestinationPartials = async (token: string): Promise<AxiosResponse<baseResponse<DestinationPartial[]>, any>> => {
+    return adminHttp.get(`/destination`, { headers: { "Authorization": `Bearer ${token}` } })
+}
+export const getDestinationPartial = async (id: string, token: string): Promise<AxiosResponse<baseResponse<DestinationPartial>, any>> => {
+    return adminHttp.get(`/destination/${id}`, { headers: { "Authorization": `Bearer ${token}` } })
+}
+export interface ICreateDestinationPartialDto {
+    message: string
+}
+export const VCreateDestinationPartialDto = Joi.object({
+    message: Joi.string()
+})
+export interface IUpdateDestinationPartialDto extends ICreateDestinationPartialDto { }
+export const VUpdateDestinationPartialDto = Joi.object({
+    message: Joi.string()
+})
+export const createDestinationPartial = async (payload: ICreateDestinationPartialDto, token: string): Promise<AxiosResponse<baseResponse<DestinationPartial>, any>> => {
+    return adminHttp.post(`/destination`, payload, { headers: { "Authorization": `Bearer ${token}` } })
+}
+export const updateDestinationPartial = async (id: string, payload: IUpdateDestinationPartialDto, token: string): Promise<AxiosResponse<baseResponse<DestinationPartial>, any>> => {
+    return adminHttp.put(`/destination/${id}`, payload, { headers: { "Authorization": `Bearer ${token}` } })
+}
+export const deleteDestinationPartial = async (id: string, token: string): Promise<AxiosResponse<baseResponse<any>, any>> => {
+    return adminHttp.delete(`/destination/${id}`, { headers: { "Authorization": `Bearer ${token}` } })
+}
+export const assoDesLoc = async (id: string, locid: string, token: string): Promise<AxiosResponse<baseResponse<DestinationPartial>, any>> => {
+    return adminHttp.put(`/destination/${id}/loc/${locid}`, {}, { headers: { "Authorization": `Bearer ${token}` } })
+}
+export const dissoDesLoc = async (id: string, token: string): Promise<AxiosResponse<baseResponse<any>, any>> => {
+    return adminHttp.delete(`/destination/${id}/loc`, { headers: { "Authorization": `Bearer ${token}` } })
+}
 
 //passcode
+export const getPasscode = async (token: string): Promise<AxiosResponse<baseResponse<Passcode>, any>> => {
+    return adminHttp.get(`/passcode`, { headers: { "Authorization": `Bearer ${token}` } })
+}
+export interface ICreatePasscodeDto {
+    passcode: string
+}
+export const VCreatePasscodeDto = Joi.object({
+    passcode: Joi.string()
+})
+export interface IUpdatePasscodeDto extends ICreatePasscodeDto { }
+export const VUpdatePasscodeDto = Joi.object({
+    passcode: Joi.string()
+})
+export const createPasscode = async (payload: ICreatePasscodeDto, token: string): Promise<AxiosResponse<baseResponse<Passcode>, any>> => {
+    return adminHttp.post(`/passcode`, payload, { headers: { "Authorization": `Bearer ${token}` } })
+}
+export const updatePasscode = async (payload: IUpdatePasscodeDto, token: string): Promise<AxiosResponse<baseResponse<Passcode>, any>> => {
+    return adminHttp.put(`/passcode`, payload, { headers: { "Authorization": `Bearer ${token}` } })
+}
+export const deletePasscode = async (token: string): Promise<AxiosResponse<baseResponse<any>, any>> => {
+    return adminHttp.delete(`/passcode`, { headers: { "Authorization": `Bearer ${token}` } })
+}
 
 //password partial
+export const getPasswordPartials = async (token: string): Promise<AxiosResponse<baseResponse<[]>, any>> => {
+    return adminHttp.get(`/secret`, { headers: { "Authorization": `Bearer ${token}` } })
+}
+export const getPasswordPartial = async (id: string, token: string): Promise<AxiosResponse<baseResponse<PasswordPartial>, any>> => {
+    return adminHttp.get(`/secret/${id}`, { headers: { "Authorization": `Bearer ${token}` } })
+}
+export interface ICreatePasswordPartialDto {
+    message: string
+}
+export const VCreatePasswordPartialDto = Joi.object({
+    message: Joi.string()
+})
+export interface IUpdatePasswordPartialDto extends ICreatePasswordPartialDto { }
+export const VUpdatePasswordPartialDto = Joi.object({
+    message: Joi.string()
+})
+export const createPasswordPartial = async (payload: ICreatePasswordPartialDto, token: string): Promise<AxiosResponse<baseResponse<PasswordPartial>, any>> => {
+    return adminHttp.post(`/secret`, payload, { headers: { "Authorization": `Bearer ${token}` } })
+}
+export const updatePasswordPartial = async (id: string, payload: IUpdatePasswordPartialDto, token: string): Promise<AxiosResponse<baseResponse<PasswordPartial>, any>> => {
+    return adminHttp.put(`/secret/${id}`, payload, { headers: { "Authorization": `Bearer ${token}` } })
+}
+export const deletePasswordPartial = async (id: string, token: string): Promise<AxiosResponse<baseResponse<any>, any>> => {
+    return adminHttp.delete(`/secret/${id}`, { headers: { "Authorization": `Bearer ${token}` } })
+}
+export const assoPassLoc = async (id: string, locid: string, token: string): Promise<AxiosResponse<baseResponse<PasswordPartial>, any>> => {
+    return adminHttp.put(`/secret/${id}/loc/${locid}`, {}, { headers: { "Authorization": `Bearer ${token}` } })
+}
+export const dissoPassLoc = async (id: string, token: string): Promise<AxiosResponse<baseResponse<any>, any>> => {
+    return adminHttp.delete(`/secret/${id}/loc`, { headers: { "Authorization": `Bearer ${token}` } })
+}
 
 //location
 export const getLocations = async (token: string): Promise<AxiosResponse<baseResponse<Location[]>, any>> => {
@@ -115,10 +201,10 @@ export const deleteLocation = async (id: string, token: string): Promise<AxiosRe
     return adminHttp.delete(`/location/${id}`, { headers: { "Authorization": `Bearer ${token}` } })
 }
 export const assoNextLoc = async (id: string, nextid: string, token: string): Promise<AxiosResponse<baseResponse<Location>, any>> => {
-    return adminHttp.put(`/location/${id}/loc/${nextid}`, {}, { headers: { "Authorization": `Bearer ${token}` } })
+    return adminHttp.put(`/location/${id}/next/${nextid}`, {}, { headers: { "Authorization": `Bearer ${token}` } })
 }
 export const dissoNextLoc = async (id: string, token: string): Promise<AxiosResponse<baseResponse<any>, any>> => {
-    return adminHttp.delete(`/location/${id}`, { headers: { "Authorization": `Bearer ${token}` } })
+    return adminHttp.delete(`/location/${id}/next`, { headers: { "Authorization": `Bearer ${token}` } })
 }
 export const assoUser = async (id: string, userid: string, token: string): Promise<AxiosResponse<baseResponse<Location>, any>> => {
     return adminHttp.put(`/location/${id}/user/${userid}`, {}, { headers: { "Authorization": `Bearer ${token}` } })

@@ -94,7 +94,7 @@ export default class DestinationPartialService extends baseService {
         if (isNull(oriDestinationPartial)) {
             throw new NotFoundError("one or more id is not found in an association cross")
         }
-        oriDestinationPartial.location = undefined
+        oriDestinationPartial.location = null
         let result = await this.DestinationPartialRepo.save(oriDestinationPartial)
         return result
     }

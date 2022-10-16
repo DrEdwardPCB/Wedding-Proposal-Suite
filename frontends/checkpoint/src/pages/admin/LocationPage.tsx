@@ -3,18 +3,16 @@ import { RootType } from "../../redux/reducers/rootReducers";
 import { useEffect, useRef, useState, useMemo } from "react";
 import { DataGrid } from "@mui/x-data-grid";
 import {
+    assoNextLoc,
     assoUser,
     createLocation,
-    createUser,
     deleteLocation,
-    deleteUser,
+    dissoNextLoc,
     dissoUser,
     getLocation,
     getLocations,
-    getUser,
     getUsers,
     updateLocation,
-    updateUser,
 } from "../../apis/admin";
 import { GridColumns } from "@mui/x-data-grid/models";
 import { User, Location } from "../../components/common/entityInterface";
@@ -27,9 +25,7 @@ import { UpdateLocationForm } from "../../components/admin/updateLocationForm";
 import { RelationManager } from "../../components/common/RelationManager";
 import { toast } from "react-toastify";
 export const LocationPage = () => {
-    const { user, token, isLoggedin } = useSelector(
-        (state: RootType) => state.user
-    );
+    const { token } = useSelector((state: RootType) => state.user);
 
     const [rows, setRows] = useState<Location[]>([]);
     const [relationAssoRows, setRelationAssoRows] = useState<
@@ -47,11 +43,11 @@ export const LocationPage = () => {
     };
     const handleCloseUser = () => {
         setOpenUser(false);
-        setSelectedId('')
+        setSelectedId("");
     };
     const handleCloseNext = () => {
         setOpenNext(false);
-        setSelectedId('')
+        setSelectedId("");
     };
     const colDef: GridColumns = useMemo(
         () => [
@@ -122,7 +118,7 @@ export const LocationPage = () => {
                 flex: 1,
                 renderCell: (params: any) => {
                     const location: Location | null | undefined = params.value;
-                    return location?.next?.id ?? "not assigned";
+                    return location?.displayName ?? "not assigned";
                 },
             },
             {
@@ -136,7 +132,7 @@ export const LocationPage = () => {
                             onClick={() => {
                                 openNextRelationManager(params.row.id);
                             }}>
-                            {location?.next?.id ?? "not assigned"}
+                            {location?.displayName ?? "not assigned"}
                         </Button>
                     );
                 },
@@ -191,7 +187,7 @@ export const LocationPage = () => {
             toast.error("association failed");
         }
         setOpenUser(false);
-        setSelectedId("")
+        setSelectedId("");
         reload();
     };
     const dissoUserFnc = async (
@@ -206,7 +202,36 @@ export const LocationPage = () => {
             toast.error("dissociation failed");
         }
         setOpenUser(false);
-        setSelectedId("")
+        setSelectedId("");
+        reload();
+    };
+
+    const assoNextFnc = async (parent: Location, option: Location) => {
+        try {
+            const result = await assoNextLoc(
+                parent.id,
+                option.id,
+                token as string
+            );
+            toast.success("association success");
+        } catch (err) {
+            console.error(err);
+            toast.error("association failed");
+        }
+        setOpenNext(false);
+        setSelectedId("");
+        reload();
+    };
+    const dissoNextFnc = async (parent: Location, option: Location) => {
+        try {
+            const result = await dissoNextLoc(parent.id, token as string);
+            toast.success("dissociation success");
+        } catch (err) {
+            console.error(err);
+            toast.error("dissociation failed");
+        }
+        setOpenNext(false);
+        setSelectedId("");
         reload();
     };
     const [openCreate, setOpenCreate] = useState(false);
@@ -217,11 +242,11 @@ export const LocationPage = () => {
     }, [selectedId]);
 
     const loadSingleEntry = async () => {
-        console.log(selectedId)
+        console.log(selectedId);
         if (selectedId !== "") {
             const result = await getLocation(selectedId, token as string);
             setSelectedEntry(result.data.data);
-        }else{
+        } else {
             setSelectedEntry(null);
         }
     };
@@ -289,6 +314,49 @@ export const LocationPage = () => {
                             field: "isApp",
                             headerName: "is App?",
                             type: "boolean",
+                        },
+                    ] as GridColumns
+                }></RelationManager>
+            <RelationManager<Location, Location>
+                open={openNext}
+                closeHandler={handleCloseNext}
+                parent={selectedEntry}
+                title='Location Next Location Relation Manager'
+                associatedTitle='Associated Next'
+                dissociatedTitle='Dissociated Next'
+                parentOptionExtractor={(parent) => {
+                    const assoedNext = get(parent, "next", null);
+                    return assoedNext ? [assoedNext] : [];
+                }}
+                options={rows.filter((e) => e.id !== selectedEntry?.id) ?? []}
+                associateFnc={assoNextFnc}
+                dissociateFnc={dissoNextFnc}
+                optionCol={
+                    [
+                        {
+                            field: "displayName",
+                            headerName: "Display Name",
+                        },
+                        {
+                            field: "location",
+                            headerName: "Location",
+                            renderCell: (params: any) => {
+                                const point: Point | null | undefined =
+                                    params.value;
+                                if (isNil(point)) {
+                                    return (
+                                        <div>
+                                            <p>N/A</p>
+                                        </div>
+                                    );
+                                }
+                                return (
+                                    <div>
+                                        <p>lat {point.coordinates[1]}</p>
+                                        <p>long {point.coordinates[0]}</p>
+                                    </div>
+                                );
+                            },
                         },
                     ] as GridColumns
                 }></RelationManager>
