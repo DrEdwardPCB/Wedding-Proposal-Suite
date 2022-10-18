@@ -1,12 +1,6 @@
 import { useForm, Controller } from "react-hook-form";
 import { joiResolver } from "@hookform/resolvers/joi";
-import {
-    ICreateUserDto,
-    IUpdateLocationDto,
-    IUpdateUserDto,
-    VCreateUserDto,
-    VUpdateUserDto,
-} from "../../apis/admin";
+import { IUpdateLocationDto, VUpdateLocationDto } from "../../apis/admin";
 import { AxiosResponse } from "axios";
 import {
     Button,
@@ -24,6 +18,7 @@ import { RootType } from "../../redux/reducers/rootReducers";
 import { useSelector } from "react-redux";
 import { baseResponse } from "../common/commonInterface";
 import { Location } from "../common/entityInterface";
+import { MapViewer } from "../common/mapViewer";
 export interface IUpdateLocationProps {
     open: boolean;
     handleClose: React.Dispatch<React.SetStateAction<boolean>>;
@@ -58,7 +53,7 @@ export const UpdateLocationForm = (props: IUpdateLocationProps) => {
     } = props;
     const [loading, setLoading] = useState(false);
     const {
-        register,
+        watch,
         control,
         getValues,
         formState: { errors },
@@ -66,7 +61,7 @@ export const UpdateLocationForm = (props: IUpdateLocationProps) => {
         handleSubmit,
         setValue,
     } = useForm<IUpdateLocationDto>({
-        resolver: joiResolver(VUpdateUserDto),
+        resolver: joiResolver(VUpdateLocationDto),
         defaultValues: {
             displayName: "",
             message: "",
@@ -143,6 +138,8 @@ export const UpdateLocationForm = (props: IUpdateLocationProps) => {
             reload();
         }
     };
+    const lat = watch("location.lat");
+    const long = watch("location.long");
     return (
         <Dialog open={open} maxWidth='md' fullWidth>
             <DialogTitle>{title}</DialogTitle>
@@ -192,7 +189,9 @@ export const UpdateLocationForm = (props: IUpdateLocationProps) => {
                                 return (
                                     <TextField
                                         value={value}
-                                        type='number'
+                                        onChange={(e) => {
+                                            onChange(e);
+                                        }}
                                         onBlur={(e) => {
                                             onChange(
                                                 parseFloat(e.target.value)
@@ -212,7 +211,9 @@ export const UpdateLocationForm = (props: IUpdateLocationProps) => {
                                 return (
                                     <TextField
                                         value={value}
-                                        type='number'
+                                        onChange={(e) => {
+                                            onChange(e);
+                                        }}
                                         onBlur={(e) => {
                                             onChange(
                                                 parseFloat(e.target.value)
@@ -242,6 +243,16 @@ export const UpdateLocationForm = (props: IUpdateLocationProps) => {
                         <p className='text-red-400'>
                             {errors.locationDescription?.message ?? ""}
                         </p>
+                    </div>
+                    <div className='w-full h-[500px]'>
+                        <MapViewer
+                            showlines={false}
+                            popups={[
+                                {
+                                    message: "",
+                                    coordinate: [lat, long],
+                                },
+                            ]}></MapViewer>
                     </div>
                 </DialogContent>
                 <DialogActions>

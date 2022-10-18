@@ -7,7 +7,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import store from "./redux/configureStore";
 import { persistor } from "./redux/configureStore";
 import { env } from "./env";
-
+import "leaflet/dist/leaflet.css";
 const root = ReactDOM.createRoot(
     document.getElementById("root") as HTMLElement
 );
