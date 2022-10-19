@@ -138,8 +138,8 @@ export const UpdateLocationForm = (props: IUpdateLocationProps) => {
             reload();
         }
     };
-    const lat = watch("location.lat");
-    const long = watch("location.long");
+    const lat = watch("location.lat", 22.295);
+    const long = watch("location.long", 114.177);
     return (
         <Dialog open={open} maxWidth='md' fullWidth>
             <DialogTitle>{title}</DialogTitle>
@@ -250,7 +250,7 @@ export const UpdateLocationForm = (props: IUpdateLocationProps) => {
                             popups={[
                                 {
                                     message: "",
-                                    coordinate: [lat, long],
+                                    coordinate: [long, lat],
                                 },
                             ]}></MapViewer>
                     </div>
