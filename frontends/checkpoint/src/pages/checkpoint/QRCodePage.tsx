@@ -31,9 +31,9 @@ export const QRCodePage = () => {
             message: checkpoint?.location?.displayName,
             coordinate: checkpoint?.location?.location?.coordinates
                 ? checkpoint.location.location.coordinates.sort((a, b) =>
-                      a > b ? 1 : -1
+                      a < b ? 1 : -1
                   )
-                : [22.295, 114.1722],
+                : [114.1722, 22.295],
         } as IMapViewerPopups;
     }, [checkpoint?.location]);
     return (

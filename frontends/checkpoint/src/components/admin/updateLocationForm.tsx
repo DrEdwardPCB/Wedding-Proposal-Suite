@@ -250,7 +250,10 @@ export const UpdateLocationForm = (props: IUpdateLocationProps) => {
                             popups={[
                                 {
                                     message: "",
-                                    coordinate: [long, lat],
+                                    coordinate: [
+                                        isNaN(long) ? 114.1722 : long,
+                                        isNaN(lat) ? 22.295 : lat,
+                                    ],
                                 },
                             ]}></MapViewer>
                     </div>
