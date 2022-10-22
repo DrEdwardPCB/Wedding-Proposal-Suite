@@ -31,7 +31,7 @@ import { LocationPage } from "./src/pages/locationPage";
 import { CameraPage } from "./src/pages/cameraPage";
 import { PasscodePage } from "./src/pages/passcodePage";
 import { store, persistor } from "./src/redux/store";
-import { NativeBaseProvider} from "native-base";
+import { NativeBaseProvider } from "native-base";
 
 const Tab = createBottomTabNavigator();
 
