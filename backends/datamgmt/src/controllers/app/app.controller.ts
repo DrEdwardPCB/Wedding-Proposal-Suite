@@ -11,5 +11,12 @@ AppController.post('/passcode', (req, res) => {
         return internalServerError(res, null)
     }
 })
+AppController.get('/location/:id',(req,res)=>{
+    try{
+        return success(res,"https://github.com/DrEdwardPCB/Wedding-Proposal-Suite")
+    }catch(err){
+        return internalServerError(res,null)
+    }
+})
 
 export default AppController
