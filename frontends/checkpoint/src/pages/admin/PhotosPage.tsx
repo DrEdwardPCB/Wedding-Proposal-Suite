@@ -67,10 +67,10 @@ export const PhotosPage = () => {
     }, []);
 
     const reload = () => {
-        fetchPasscode();
+        fetchPhotos();
     };
 
-    const fetchPasscode = async () => {
+    const fetchPhotos = async () => {
         const response = await getPhotos(token as string);
         const rawPhoto = response.data.data as Photo[];
         console.log(rawPhoto);

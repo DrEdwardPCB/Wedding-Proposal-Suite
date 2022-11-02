@@ -16,6 +16,9 @@ import { CheckpointLayout } from "./Layout/CheckpointLayout";
 import { CheckpointHomepage } from "../pages/checkpoint/HomePage";
 import { EditPage } from "../pages/checkpoint/EditPage";
 import { QRCodePage } from "../pages/checkpoint/QRCodePage";
+import { PiHomePage } from "../pages/admin/pi/HomePage";
+import { PiMapPage } from "../pages/admin/pi/mapPage";
+import { PiSlidesshowPage } from "../pages/admin/pi/slideshowPage";
 export const RouterRender = () => {
     return (
         <BrowserRouter>
@@ -41,7 +44,17 @@ export const RouterRender = () => {
                         path='photo'
                         element={<PhotosPage></PhotosPage>}></Route>
                     <Route path='pi' element={<PiLayout></PiLayout>}>
-                        <Route path=''></Route>
+                        <Route
+                            path=''
+                            element={<PiHomePage></PiHomePage>}></Route>
+                        <Route
+                            path='map'
+                            element={<PiMapPage></PiMapPage>}></Route>
+                        <Route
+                            path='photos'
+                            element={
+                                <PiSlidesshowPage></PiSlidesshowPage>
+                            }></Route>
                     </Route>
                 </Route>
                 <Route path='/camman'>
