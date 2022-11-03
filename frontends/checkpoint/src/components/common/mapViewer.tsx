@@ -44,21 +44,27 @@ export const MapViewer = (props: IMapViewerProps) => {
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                     url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                 />
-                <Marker position={popups[0].coordinate}>
-                    <Popup>{popups[0].message}</Popup>
-                </Marker>
-                {popups.map((e, i) => {
-                    return (
-                        <Marker key={i} position={e.coordinate}>
-                            <Popup>{e.message}</Popup>
+                {popups.length > 0 ? (
+                    <>
+                        <Marker position={popups[0].coordinate}>
+                            <Popup>{popups[0].message}</Popup>
                         </Marker>
-                    );
-                })}
-                {showlines && (
-                    <Polyline
-                        pathOptions={{ color: "blue" }}
-                        positions={line}
-                    />
+                        {popups.map((e, i) => {
+                            return (
+                                <Marker key={i} position={e.coordinate}>
+                                    <Popup>{e.message}</Popup>
+                                </Marker>
+                            );
+                        })}
+                        {showlines && (
+                            <Polyline
+                                pathOptions={{ color: "blue" }}
+                                positions={line}
+                            />
+                        )}
+                    </>
+                ) : (
+                    <></>
                 )}
             </MapContainer>
         </div>

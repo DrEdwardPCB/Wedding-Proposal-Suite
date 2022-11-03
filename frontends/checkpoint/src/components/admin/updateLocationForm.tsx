@@ -19,6 +19,7 @@ import { useSelector } from "react-redux";
 import { baseResponse } from "../common/commonInterface";
 import { Location } from "../common/entityInterface";
 import { MapViewer } from "../common/mapViewer";
+import { isNil } from "lodash";
 export interface IUpdateLocationProps {
     open: boolean;
     handleClose: React.Dispatch<React.SetStateAction<boolean>>;
@@ -251,8 +252,10 @@ export const UpdateLocationForm = (props: IUpdateLocationProps) => {
                                 {
                                     message: "",
                                     coordinate: [
-                                        isNaN(long) ? 114.1722 : long,
-                                        isNaN(lat) ? 22.295 : lat,
+                                        isNil(lat) || isNaN(lat) ? 22.295 : lat,
+                                        isNil(long) || isNaN(long)
+                                            ? 114.1722
+                                            : long,
                                     ],
                                 },
                             ]}></MapViewer>
