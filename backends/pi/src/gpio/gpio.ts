@@ -5,6 +5,8 @@ import logger from "../config/logger"
 //const led = setOutput(33)//gpio 13 pin 33
 // const motorRotateTime:number=5000
 // const ledLightTime:number = 10000 
+// the number in pin refers to GPIO number, not pin number
+// use 12V for motor
 export class GpioController{
     private initialized=false
     private motor:Gpio
@@ -13,7 +15,7 @@ export class GpioController{
     private ledLightTime:number 
     private static instance:GpioController
     
-    private constructor(motorPin:number=16, ledPin:number=26, motorRotateTime:number=5000 ,ledLightTime:number = 10000  ){
+    private constructor(motorPin:number=16, ledPin:number=26, motorRotateTime:number=500 ,ledLightTime:number = 10000  ){
         if(isNil(GpioController.instance)){
             logger.info("initializing GpioController")
             this.motor = new Gpio(motorPin,'out')

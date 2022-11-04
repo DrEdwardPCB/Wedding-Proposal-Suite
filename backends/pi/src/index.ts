@@ -4,6 +4,7 @@ import { env } from './config/env'
 import express from 'express'
 import { get } from 'lodash'
 import { GpioController } from './gpio/gpio'
+// import StepperController from './gpio/stepper'
 interface WebsocketMessage{
     type:"utf8",
     utf8Data:string,
@@ -12,6 +13,11 @@ interface WebsocketMessage{
 const WebSocketClient = websocket.client
 GpioController.getInstance()
 const app=express()
+app.get('/',async (req,res)=>{
+    console.log('triggering Rest GET')
+    await GpioController.getInstance().openBox()
+    res.send()
+})
 const server = app.listen(env.PORT, async function(){
     const serverUrl = `${env.SERVER_FULL_ADDRESS}/ws/`.replace('http','ws')
     logger.info(`server starting at port ${env.PORT}`)
@@ -36,8 +42,9 @@ const server = app.listen(env.PORT, async function(){
             logger.info("connection closed")
         })
     })
-    client.connect(serverUrl)
-
+    // const sc = new StepperController()
+    // sc.start()
+    // setTimeout(()=>{sc.stop()},1000000)
 
    
 })
@@ -54,3 +61,4 @@ const gracefulShutdown = async(callType:any)=>{
     })
 }
 process.on("SIGINT", async()=> gracefulShutdown("SIGINT"))
+
