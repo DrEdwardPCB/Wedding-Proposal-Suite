@@ -76,7 +76,8 @@ export function jwtMiddlewareApp(req: Request, res: Response, next: NextFunction
         return unauthorized(res, {}, "jwt could not be found")
     } else {
         try {
-            const verifiedObject: Partial<User> = jwt.verify(token, Buffer.from(env.JWT_SECRET)) as Partial<User>
+            console.log(jwt.decode(token))
+            const verifiedObject: Partial<User> = jwt.verify(token, Buffer.from(env.JWT_SECRET).toString('base64')) as Partial<User>
             if (verifiedObject.isApp) {
                 req.jwt = verifiedObject
                 return next()
