@@ -20,6 +20,7 @@ import dayjs from "dayjs";
 import { CreatePhotoForm } from "../../components/admin/createPhotoForm";
 import { DeletePhotoForm } from "../../components/admin/deletePhotoForm";
 import { getPhoto } from "../../apis/admin";
+import { getCmPhotos, createCmPhoto, getCmPhoto } from "../../apis/camman";
 
 export const CammanPhotosPage = () => {
     const { token } = useSelector((state: RootType) => state.user);
@@ -67,11 +68,11 @@ export const CammanPhotosPage = () => {
     }, []);
 
     const reload = () => {
-        fetchPasscode();
+        fetchPhotos();
     };
 
-    const fetchPasscode = async () => {
-        const response = await getPhotos(token as string);
+    const fetchPhotos = async () => {
+        const response = await getCmPhotos(token as string);
         const rawPhoto = response.data.data as Photo[];
         console.log(rawPhoto);
         setRows(rawPhoto);
@@ -82,7 +83,7 @@ export const CammanPhotosPage = () => {
 
     return (
         <div className='flex flex-col w-5/6 ml-auto mr-auto grow min-w-[390px] overflow-auto'>
-            <h2 className='text-2xl text-center'>Admin Photo Page</h2>
+            <h2 className='text-2xl text-center'>Camman Photo Page</h2>
             <p className='text-center'>perform CRUD action on Photo</p>
             <div className='flex justify-end'>
                 <Button
@@ -95,7 +96,7 @@ export const CammanPhotosPage = () => {
             <CreatePhotoForm
                 open={openCreate}
                 setOpen={setOpenCreate}
-                createWebRequest={createPhoto}
+                createWebRequest={createCmPhoto}
                 reload={reload}
             />
             <DeletePhotoForm
@@ -103,8 +104,7 @@ export const CammanPhotosPage = () => {
                 open={openEdit}
                 setOpen={setOpenEdit}
                 reload={reload}
-                showWebRequest={getPhoto}
-                deleteWebRequest={deletePhoto}
+                showWebRequest={getCmPhoto}
             />
             <div className='grow'>
                 <div className='h-[500px]'>

@@ -23,7 +23,7 @@ export interface IDeletePhotoFormProps {
         id: string,
         token: string
     ) => Promise<AxiosResponse<baseResponse<Photo>, any>>;
-    deleteWebRequest: (
+    deleteWebRequest?: (
         id: string,
         token: string
     ) => Promise<AxiosResponse<baseResponse<any>, any>>;
@@ -53,6 +53,7 @@ export const DeletePhotoForm = (props: IDeletePhotoFormProps) => {
     };
     const deletePhoto = async () => {
         if (!id) return;
+        if (!deleteWebRequest) return;
         try {
             const response = await deleteWebRequest(id, token as string);
             toast.success("delete photo success");
@@ -90,13 +91,17 @@ export const DeletePhotoForm = (props: IDeletePhotoFormProps) => {
                     }}>
                     cancel
                 </Button>
-                <Button
-                    onClick={() => {
-                        deletePhoto();
-                    }}
-                    color='error'>
-                    delete
-                </Button>
+                {deleteWebRequest ? (
+                    <Button
+                        onClick={() => {
+                            deletePhoto();
+                        }}
+                        color='error'>
+                        delete
+                    </Button>
+                ) : (
+                    <></>
+                )}
             </DialogActions>
         </Dialog>
     );

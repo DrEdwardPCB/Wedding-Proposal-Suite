@@ -9,6 +9,7 @@ import AdminRouter from './controllers/admin/admin.controller'
 import CheckpointRouter from './controllers/checkPoint/checkpoint.controller';
 import expressWs from 'express-ws'
 import { WsHelper } from './utils/wsHelper';
+import CammanRouter from './controllers/camman/camman.controller';
 export const bootstrap = () => {
     const wsInstance = expressWs(express())
     const app = wsInstance.app
@@ -22,6 +23,7 @@ export const bootstrap = () => {
     app.use('/admin', AdminRouter)
     app.use('/checkpoint', CheckpointRouter)
     app.use('/app', AppController)
+    app.use('/camman', CammanRouter)
     app.ws('/ws', (ws, req) => {
         ws.on("message", function (msg: string) {
             console.log(msg)

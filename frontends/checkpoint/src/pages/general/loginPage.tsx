@@ -33,8 +33,11 @@ export const LoginPage = () => {
     useEffect(() => {
         if (isSuccess && user) {
             toast.success("login success");
-            if (user.isAdmin) navigate("/admin");
-            else {
+            if (user.isAdmin) {
+                navigate("/admin");
+            } else if (user?.isCameraMan) {
+                navigate("/camman");
+            } else {
                 navigate("/checkpoint");
             }
         } else if (isError) {
