@@ -72,7 +72,7 @@ export const CheckpointEditForm = (props: ICheckpointEditFormProps) => {
         }
     };
     return (
-        <div>
+        <div className='w-full'>
             <Button
                 variant='contained'
                 onClick={() => {
@@ -155,7 +155,7 @@ export const CheckpointEditForm = (props: ICheckpointEditFormProps) => {
                 </div>
             </form>
             <hr />
-            <div className='flex gap-4 justify-around flex-wrap, items-center p-4'>
+            <div className='flex flex-wrap items-center justify-around w-full gap-4 p-4'>
                 <PhotoUploader
                     location={location}
                     reload={reload}
@@ -181,4 +181,3 @@ export const CheckpointEditForm = (props: ICheckpointEditFormProps) => {
         </div>
     );
 };
-
