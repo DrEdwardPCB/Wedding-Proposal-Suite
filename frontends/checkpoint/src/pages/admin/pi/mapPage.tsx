@@ -9,6 +9,7 @@ import { RootType } from "../../../redux/reducers/rootReducers";
 import { Location } from "../../../components/common/entityInterface";
 import { cloneDeep, isNil } from "lodash";
 import { LocationViewer } from "../../../components/admin/pi/locationViewer";
+import { Button, Tooltip } from "@mui/material";
 export const PiMapPage = () => {
     const { token } = useSelector((state: RootType) => state.user);
     const [locations, setLocation] = useState<Location[]>([]);
@@ -91,7 +92,16 @@ export const PiMapPage = () => {
                 ))}
             </div>
             {/* part 3 showing the passcode */}
-            <div></div>
+            <div>
+                <Tooltip title='calling backend Pi backend API directly to rotate the motor on raspberry Pi'>
+                    <Button
+                        onClick={() => {
+                            fetch("http://localhost:4001");
+                        }}>
+                        Back up Button
+                    </Button>
+                </Tooltip>
+            </div>
         </div>
     );
 };
