@@ -7,7 +7,8 @@ import {
 } from "../../../components/common/mapViewer";
 import { RootType } from "../../../redux/reducers/rootReducers";
 import { Location } from "../../../components/common/entityInterface";
-import { isNil } from "lodash";
+import { cloneDeep, isNil } from "lodash";
+import { LocationViewer } from "../../../components/admin/pi/locationViewer";
 export const PiMapPage = () => {
     const { token } = useSelector((state: RootType) => state.user);
     const [locations, setLocation] = useState<Location[]>([]);
@@ -26,7 +27,39 @@ export const PiMapPage = () => {
         reload();
     }, []);
     const popups = useMemo(() => {
-        return locations.map((e) => {
+        //arrange locations as next
+        const sortedLocations: Location[] = [];
+        const initial = locations.find((e) => !isNil(e.next) && isNil(e.prev));
+        if (initial) {
+            sortedLocations.push(initial);
+            let currLoc = locations.find(
+                (e) => e.id == (initial.next as NonNullable<Location>).id
+            );
+            while (true) {
+                if (currLoc) {
+                    sortedLocations.push(cloneDeep(currLoc));
+                    if (currLoc.next) {
+                        let nextLoc = locations.find(
+                            (e) =>
+                                e.id ===
+                                (
+                                    (currLoc as NonNullable<Location>)
+                                        .next as NonNullable<Location>
+                                ).id
+                        );
+
+                        currLoc = nextLoc;
+                    } else {
+                        break;
+                    }
+                } else {
+                    break;
+                }
+            }
+        }
+        console.log(sortedLocations);
+
+        return sortedLocations.map((e) => {
             const lat = e.location?.coordinates[0];
             const long = e.location?.coordinates[1];
             return {
@@ -41,13 +74,22 @@ export const PiMapPage = () => {
     console.log(popups);
 
     return (
-        <div className='flex flex-col w-5/6 ml-auto mr-auto grow min-w-[390px] overflow-auto'>
+        <div className='flex flex-col w-5/6 ml-auto mr-auto grow min-w-[390px] overflow-auto mb-[100px]'>
             {/* part 1 showing the map */}
             <div className='w-full h-[500px]'>
                 <MapViewer showlines={true} popups={popups ?? []}></MapViewer>
             </div>
             {/* part 2 showing details */}
-            <div></div>
+            <div>
+                {locations.map((e) => (
+                    <LocationViewer
+                        key={e.id}
+                        location={e}
+                        displayDestinationPartial={true}
+                        displayPasswordPartial={true}
+                        displayNextLocation={false}></LocationViewer>
+                ))}
+            </div>
             {/* part 3 showing the passcode */}
             <div></div>
         </div>

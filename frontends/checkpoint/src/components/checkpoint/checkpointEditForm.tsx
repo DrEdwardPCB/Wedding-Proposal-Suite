@@ -107,6 +107,7 @@ export const CheckpointEditForm = (props: ICheckpointEditFormProps) => {
                     render={({ field: { onChange, value } }) => {
                         return (
                             <WYSIWYGEditor
+                                noEdit={false}
                                 onChange={onChange}
                                 value={value as string}
                                 readonly={!edit}></WYSIWYGEditor>
@@ -180,3 +181,4 @@ export const CheckpointEditForm = (props: ICheckpointEditFormProps) => {
         </div>
     );
 };
+

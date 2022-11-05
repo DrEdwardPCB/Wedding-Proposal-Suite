@@ -9,8 +9,14 @@ export interface IWYSIWYGEditorProps {
     onChange: (...event: any[]) => void;
     value: string;
     readonly: boolean;
+    noEdit: boolean;
 }
-const WYSIWYGEditor = ({ onChange, value, readonly }: IWYSIWYGEditorProps) => {
+const WYSIWYGEditor = ({
+    onChange,
+    value,
+    readonly,
+    noEdit = false,
+}: IWYSIWYGEditorProps) => {
     const [editorState, setEditorState] = useState(EditorState.createEmpty());
     const [updated, setUpdated] = useState(false);
 
@@ -40,6 +46,7 @@ const WYSIWYGEditor = ({ onChange, value, readonly }: IWYSIWYGEditorProps) => {
         <React.Fragment>
             <div className='editor'>
                 <Editor
+                    toolbarHidden={noEdit}
                     readOnly={readonly}
                     spellCheck
                     editorState={editorState}

@@ -31,8 +31,8 @@ export const MapViewer = (props: IMapViewerProps) => {
     const { center = [22.295, 114.1722], popups, showlines } = props;
     //@ts-ignore
     const line: LatLngExpression[] = popups.map((e) => e.coordinate.reverse());
-    console.log(popups);
-    console.log(line);
+    // console.log(popups);
+    // console.log(line);
     return (
         <div className='w-full h-full'>
             <MapContainer
