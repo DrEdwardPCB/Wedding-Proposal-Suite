@@ -37,6 +37,9 @@ CheckpointRouter.put("/location/:id", async function (req: Request, res: Respons
         const validatedReq: IUpdateLocationDto = await VUpdateLocationDto.validateAsync(req.body)
         const ls = new LocationService()
         await ls.superInitialize()
+        if (!req.params.id) {
+            throw new ValidationError('unable to read updated id')
+        }
         logger.info("finish:checkpoint update location")
         const result = await ls.update(req.params.id, validatedReq)
         return success(res, result)
