@@ -82,13 +82,13 @@ export default class LocationService extends baseService {
             const ptObj: Point = { type: 'Point', coordinates: [updateLocationDto.location.long, updateLocationDto.location.lat] }
             oriLocation.location = ptObj
         }
-        if (!isNil(updateLocationDto?.photoone)) {
+        if (!isNil(updateLocationDto?.photoone) || updateLocationDto?.photoone === null) {
             oriLocation.photoone = updateLocationDto.photoone
         }
-        if (!isNil(updateLocationDto?.phototwo)) {
+        if (!isNil(updateLocationDto?.phototwo) || updateLocationDto?.phototwo === null) {
             oriLocation.phototwo = updateLocationDto.phototwo
         }
-        if (!isNil(updateLocationDto?.photothree)) {
+        if (!isNil(updateLocationDto?.photothree) || updateLocationDto?.photothree === null) {
             oriLocation.photothree = updateLocationDto.photothree
         }
         if (!isNil(updateLocationDto?.scanTime)) {
