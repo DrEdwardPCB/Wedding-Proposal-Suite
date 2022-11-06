@@ -8,7 +8,6 @@ export const LocationPage = () => {
     const reload = async () => {
         const aa = await AppApi.getInstance();
         const response = await aa.getLocations();
-        console.log(response.data.data);
         dispatch(reloadLocation(response.data.data));
     };
     useEffect(() => {

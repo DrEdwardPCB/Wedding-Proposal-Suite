@@ -32,6 +32,7 @@ import { CameraPage } from "./src/pages/cameraPage";
 import { PasscodePage } from "./src/pages/passcodePage";
 import { store, persistor } from "./src/redux/store";
 import { NativeBaseProvider } from "native-base";
+import { AlertNotificationRoot } from "react-native-alert-notification";
 
 const Tab = createBottomTabNavigator();
 
@@ -47,55 +48,60 @@ const App = () => {
             <PersistGate
                 loading={<Text>Loading...</Text>}
                 persistor={persistor}>
-                <NativeBaseProvider>
-                    <NavigationContainer>
-                        <Tab.Navigator
-                            screenOptions={({ route }) => ({
-                                tabBarIcon: ({ focused, color, size }) => {
-                                    let iconName;
+                <AlertNotificationRoot>
+                    <NativeBaseProvider>
+                        <NavigationContainer>
+                            <Tab.Navigator
+                                screenOptions={({ route }) => ({
+                                    tabBarIcon: ({ focused, color, size }) => {
+                                        let iconName;
 
-                                    if (route.name === "Home") {
-                                        iconName = focused
-                                            ? "ios-information-circle"
-                                            : "ios-information-circle-outline";
-                                    } else if (route.name === "Settings") {
-                                        iconName = focused
-                                            ? "ios-list-box"
-                                            : "ios-list";
-                                    }
+                                        if (route.name === "Home") {
+                                            iconName = focused
+                                                ? "ios-information-circle"
+                                                : "ios-information-circle-outline";
+                                        } else if (route.name === "Settings") {
+                                            iconName = focused
+                                                ? "ios-list-box"
+                                                : "ios-list";
+                                        }
 
-                                    // You can return any component that you like here!
-                                    return (
-                                        <Ionicons
-                                            name={
-                                                iconName ??
-                                                "ios-information-circle"
-                                            }
-                                            size={size}
-                                            color={color}
-                                        />
-                                    );
-                                },
-                                tabBarActiveTintColor: "tomato",
-                                tabBarInactiveTintColor: "gray",
-                            })}>
-                            <Tab.Screen name='Home' component={HomePage} />
-                            <Tab.Screen
-                                name='Location'
-                                component={LocationPage}
-                            />
-                            <Tab.Screen name='Camera' component={CameraPage} />
-                            <Tab.Screen
-                                name='Passcode'
-                                component={PasscodePage}
-                            />
-                            <Tab.Screen
-                                name='Settings'
-                                component={SettingPage}
-                            />
-                        </Tab.Navigator>
-                    </NavigationContainer>
-                </NativeBaseProvider>
+                                        // You can return any component that you like here!
+                                        return (
+                                            <Ionicons
+                                                name={
+                                                    iconName ??
+                                                    "ios-information-circle"
+                                                }
+                                                size={size}
+                                                color={color}
+                                            />
+                                        );
+                                    },
+                                    tabBarActiveTintColor: "tomato",
+                                    tabBarInactiveTintColor: "gray",
+                                })}>
+                                <Tab.Screen name='Home' component={HomePage} />
+                                <Tab.Screen
+                                    name='Location'
+                                    component={LocationPage}
+                                />
+                                <Tab.Screen
+                                    name='Camera'
+                                    component={CameraPage}
+                                />
+                                <Tab.Screen
+                                    name='Passcode'
+                                    component={PasscodePage}
+                                />
+                                <Tab.Screen
+                                    name='Settings'
+                                    component={SettingPage}
+                                />
+                            </Tab.Navigator>
+                        </NavigationContainer>
+                    </NativeBaseProvider>
+                </AlertNotificationRoot>
             </PersistGate>
         </Provider>
     );
