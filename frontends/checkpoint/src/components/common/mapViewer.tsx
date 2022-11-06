@@ -29,8 +29,11 @@ export interface IMapViewerProps {
 }
 export const MapViewer = (props: IMapViewerProps) => {
     const { center = [22.295, 114.1722], popups, showlines } = props;
-    //@ts-ignore
-    const line: LatLngExpression[] = popups.map((e) => e.coordinate.reverse());
+
+    const line: LatLngExpression[] = popups.map((e) =>
+        //@ts-ignore
+        e.coordinate.sort((a, b) => a - b)
+    );
     // console.log(popups);
     // console.log(line);
     return (
