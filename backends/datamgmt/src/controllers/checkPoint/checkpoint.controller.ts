@@ -39,6 +39,7 @@ CheckpointRouter.put("/location", async function (req: Request, res: Response) {
         await ls.superInitialize()
         logger.info("finish:checkpoint update location")
         const result = await ls.update(req.params.id, validatedReq)
+        return success(res, result)
     } catch (err) {
         return errorHandler(res, err)
     }
