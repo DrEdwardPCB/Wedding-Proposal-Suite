@@ -10,8 +10,8 @@ export const getCheckpoint = async (token: string): Promise<AxiosResponse<baseRe
 }
 
 
-export const updateLocation = async (payload: IUpdateLocationDto, token: string): Promise<AxiosResponse<baseResponse<Location>, any>> => {
-    return checkpointHttp.put("/location", payload, { headers: { "Authorization": `Bearer ${token}` } })
+export const updateLocation = async (id: string, payload: IUpdateLocationDto, token: string): Promise<AxiosResponse<baseResponse<Location>, any>> => {
+    return checkpointHttp.put(`/location/${id}`, payload, { headers: { "Authorization": `Bearer ${token}` } })
 }
 
 export const createLocationOne = async (payload: FormData, token: string): Promise<AxiosResponse<baseResponse<Location>, any>> => {

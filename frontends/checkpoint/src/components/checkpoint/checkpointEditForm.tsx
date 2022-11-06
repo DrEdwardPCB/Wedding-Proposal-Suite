@@ -42,7 +42,11 @@ export const CheckpointEditForm = (props: ICheckpointEditFormProps) => {
     });
     const handleUpdateFormSubmit = async (value: IUpdateLocationDto) => {
         try {
-            const result = await updateLocation(value, token as string);
+            const result = await updateLocation(
+                location.id,
+                value,
+                token as string
+            );
             console.log(result);
         } catch (error) {
             console.error(error);

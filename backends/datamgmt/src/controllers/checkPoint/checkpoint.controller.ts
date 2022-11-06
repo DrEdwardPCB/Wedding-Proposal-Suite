@@ -31,7 +31,7 @@ CheckpointRouter.get("/", async function (req: Request, res: Response) {
         return errorHandler(res, err)
     }
 })
-CheckpointRouter.put("/location", async function (req: Request, res: Response) {
+CheckpointRouter.put("/location/:id", async function (req: Request, res: Response) {
     logger.info("start: checkpoint update location")
     try {
         const validatedReq: IUpdateLocationDto = await VUpdateLocationDto.validateAsync(req.body)
