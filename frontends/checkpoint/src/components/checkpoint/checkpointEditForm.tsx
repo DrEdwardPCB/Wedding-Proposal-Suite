@@ -61,6 +61,7 @@ export const CheckpointEditForm = (props: ICheckpointEditFormProps) => {
         resetToEntry();
     }, [location]);
     const resetToEntry = () => {
+        console.log(location);
         if (location.message) {
             setValue("message", location.message);
         }
