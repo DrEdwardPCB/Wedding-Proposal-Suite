@@ -23,9 +23,15 @@ export class AppApi {
         return AppApi.instance
     }
     public async getLocations() {
-        console.log("calling API")
-        console.log(JSON.stringify(AppApi.appHttp))
-        console.log("callAPI end")
         return await AppApi.appHttp.get('/locations')
+    }
+    public async resetLocations() {
+        return await AppApi.appHttp.get('/reset')
+    }
+    public async scanQRCode(id: string) {
+        return await AppApi.appHttp.post(`/scan/${id}`)
+    }
+    public async enterPasscode(passcode: string) {
+        return await AppApi.appHttp.post('/passcode', { passcode })
     }
 }

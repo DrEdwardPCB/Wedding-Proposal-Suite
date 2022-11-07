@@ -4,12 +4,20 @@ import { WsHelper } from '../../utils/wsHelper'
 import LocationService from '../locations/location.service';
 import { jwtMiddlewareApp } from '../../middlewares/jwtMiddleware';
 import { isNil } from 'lodash';
+import PasscodeService from '../passcode/passcode.service';
 const AppController = Router()
 AppController.use(jwtMiddlewareApp)
-AppController.post('/passcode', (req, res) => {
+AppController.post('/passcode', async (req, res) => {
     try {
-        WsHelper.getInstance().broadcast("passcode")
-        return success(res, "")
+        const ps = new PasscodeService()
+        await ps.initialize()
+        const passcode = await ps.findOne()
+        if (passcode === req.body.passcode) {
+            WsHelper.getInstance().broadcast("passcode")
+            return success(res, 'password OK')
+        }
+        return success(res, "password incorrect")
+
     } catch (err) {
         return internalServerError(res, null)
     }
