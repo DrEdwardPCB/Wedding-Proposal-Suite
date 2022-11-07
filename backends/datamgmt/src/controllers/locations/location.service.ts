@@ -100,6 +100,14 @@ export default class LocationService extends baseService {
         const result = await this.LocationRepo.save(oriLocation)
         return result
     }
+    resetScantime = async () => {
+        const results = await this.LocationRepo.find()
+        for (var result of results) {
+            result.scanTime = null
+            await this.LocationRepo.save(result)
+        }
+        return
+    }
 
     delete = async (id: string): Promise<DeleteResult> => {
         if (!this.initialized) {

@@ -3,6 +3,7 @@ import { internalServerError, success } from '../../utils/response'
 import { WsHelper } from '../../utils/wsHelper'
 import LocationService from '../locations/location.service';
 import { jwtMiddlewareApp } from '../../middlewares/jwtMiddleware';
+import { isNil } from 'lodash';
 const AppController = Router()
 AppController.use(jwtMiddlewareApp)
 AppController.post('/passcode', (req, res) => {
@@ -23,9 +24,22 @@ AppController.get('/locations', async (req, res) => {
         return internalServerError(res, null)
     }
 })
-AppController.post('/scan/:id', (req, res) => {
+AppController.post('/scan/:id', async (req, res) => {
     try {
-        return success(res, "https://github.com/DrEdwardPCB/Wedding-Proposal-Suite")
+        const ls = new LocationService()
+        await ls.initialize()
+        await ls.update(req.params.id, { scanTime: new Date() })
+
+    } catch (err) {
+        return internalServerError(res, null)
+    }
+})
+AppController.get('/reset', async (req, res) => {
+    try {
+        const ls = new LocationService()
+        await ls.initialize()
+        await ls.resetScantime()
+
     } catch (err) {
         return internalServerError(res, null)
     }
