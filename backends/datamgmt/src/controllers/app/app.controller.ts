@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { internalServerError, success } from '../../utils/response'
+import { badRequest, internalServerError, success } from '../../utils/response'
 import { WsHelper } from '../../utils/wsHelper'
 import LocationService from '../locations/location.service';
 import { jwtMiddlewareApp } from '../../middlewares/jwtMiddleware';
@@ -12,7 +12,10 @@ AppController.post('/passcode', async (req, res) => {
         const ps = new PasscodeService()
         await ps.initialize()
         const passcode = await ps.findOne()
-        if (passcode === req.body.passcode) {
+        console.log(req.body.passcode)
+        console.log(passcode)
+        if (passcode?.passcode === req.body.passcode) {
+
             WsHelper.getInstance().broadcast("passcode")
             return success(res, 'password OK')
         }
@@ -37,6 +40,7 @@ AppController.post('/scan/:id', async (req, res) => {
         const ls = new LocationService()
         await ls.initialize()
         await ls.update(req.params.id, { scanTime: new Date() })
+        return success(res, null)
 
     } catch (err) {
         return internalServerError(res, null)
@@ -47,7 +51,7 @@ AppController.get('/reset', async (req, res) => {
         const ls = new LocationService()
         await ls.initialize()
         await ls.resetScantime()
-
+        return success(res, null)
     } catch (err) {
         return internalServerError(res, null)
     }

@@ -5,12 +5,18 @@ import { useCameraDevices } from "react-native-vision-camera";
 import { Camera } from "react-native-vision-camera";
 import { useScanBarcodes, BarcodeFormat } from "vision-camera-code-scanner";
 import "react-native-reanimated";
-import { get } from "lodash";
+import { get, debounce } from "lodash";
 import { useNavigation } from "@react-navigation/native";
+import { AppApi } from "../utils/api/app";
+import { useDispatch } from "react-redux";
+import { addLocation } from "../redux/actions/locationAction";
+import { Toast, ALERT_TYPE } from "react-native-alert-notification";
+
 export const CameraPage = () => {
     const navigation = useNavigation();
     const [hasPermission, setHasPermission] = useState(false);
     const devices = useCameraDevices();
+    const dispatch = useDispatch();
     const device = devices.back;
 
     const [frameProcessor, barcodes] = useScanBarcodes(
@@ -48,12 +54,29 @@ export const CameraPage = () => {
             const code = barcodes[0];
             const url = get(code, "content.data.url", "");
             if (url.includes("/app/scan")) {
-                console.log(url);
+                // console.log(url);
+                const strLs = url.split("/");
+                // console.log(strLs);
+                const id = strLs[strLs.length - 1];
+                // console.log(id);
+                const ai = await AppApi.getInstance();
+                const result = await ai.scanQRCode(id);
+                Toast.show({
+                    type: ALERT_TYPE.SUCCESS,
+                    title: "Success",
+                    textBody: "successfully scan QRCode",
+                });
+                // console.log(result);
+                dispatch(addLocation(id));
                 //@ts-ignore
                 navigation.navigate("Location");
             }
         } catch (err) {
-            Alert("an error has occur while scanning QRCode");
+            Toast.show({
+                type: ALERT_TYPE.DANGER,
+                title: "Failed",
+                textBody: "an error has occured scan QRCode",
+            });
             console.log(err);
         } finally {
             setBarcodeProcessing(false);

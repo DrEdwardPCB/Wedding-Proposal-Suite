@@ -1,6 +1,6 @@
 import { ELocationAction } from './types'
 import { Location } from "../../utils/entityInterface"
-import { isNil } from 'lodash'
+import { cloneDeep, isNil } from 'lodash'
 const locationReducerInitialState: IlocationReducerInitialState = {
     locations: [],
     show: {}
@@ -24,7 +24,39 @@ export const locationReducer = (state: IlocationReducerInitialState = locationRe
                     showObj[element.id] = false
                 }
             });
-            return { locations: action.payload.locations, show: showObj }
+            const locations = action.payload.locations as Location[]
+            //arrange locations as next
+            const sortedLocations: Location[] = [];
+            const initial = locations.find((e) => !isNil(e.next) && isNil(e.prev));
+            if (initial) {
+                sortedLocations.push(initial);
+                let currLoc = locations.find(
+                    (e) => e.id == (initial.next as NonNullable<Location>).id
+                );
+                while (true) {
+                    if (currLoc) {
+                        sortedLocations.push(cloneDeep(currLoc));
+                        if (currLoc.next) {
+                            let nextLoc = locations.find(
+                                (e) =>
+                                    e.id ===
+                                    (
+                                        (currLoc as NonNullable<Location>)
+                                            .next as NonNullable<Location>
+                                    ).id
+                            );
+
+                            currLoc = nextLoc;
+                        } else {
+                            break;
+                        }
+                    } else {
+                        break;
+                    }
+                }
+            }
+            console.log(sortedLocations);
+            return { locations: sortedLocations.reverse(), show: showObj }
         }
         case ELocationAction.LOCATION_ADD: {
             const id = action.payload as string

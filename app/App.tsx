@@ -53,6 +53,7 @@ const App = () => {
                         <NavigationContainer>
                             <Tab.Navigator
                                 screenOptions={({ route }) => ({
+                                    unmountOnBlur: true,
                                     tabBarIcon: ({ focused, color, size }) => {
                                         let iconName;
 
@@ -60,10 +61,22 @@ const App = () => {
                                             iconName = focused
                                                 ? "ios-information-circle"
                                                 : "ios-information-circle-outline";
+                                        } else if (route.name === "Location") {
+                                            iconName = focused
+                                                ? "location"
+                                                : "location-outline";
+                                        } else if (route.name === "Camera") {
+                                            iconName = focused
+                                                ? "ios-camera"
+                                                : "ios-camera-outline";
+                                        } else if (route.name === "Passcode") {
+                                            iconName = focused
+                                                ? "ios-code-working"
+                                                : "ios-code-working-outline";
                                         } else if (route.name === "Settings") {
                                             iconName = focused
-                                                ? "ios-list-box"
-                                                : "ios-list";
+                                                ? "ios-list"
+                                                : "ios-list-outline";
                                         }
 
                                         // You can return any component that you like here!
@@ -87,6 +100,7 @@ const App = () => {
                                     component={LocationPage}
                                 />
                                 <Tab.Screen
+                                    options={{}}
                                     name='Camera'
                                     component={CameraPage}
                                 />

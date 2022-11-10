@@ -14,13 +14,25 @@ export const SettingPage = () => {
             name: "Clear Store",
             type: "button",
             buttonText: "Clear",
-            action: () => {
-                dispatch(resetLocation());
-                Toast.show({
-                    type: ALERT_TYPE.SUCCESS,
-                    title: "Success",
-                    textBody: "successfully reload",
-                });
+            action: async () => {
+                try {
+                    dispatch(resetLocation());
+                    const aa = await AppApi.getInstance();
+                    await aa.resetLocations();
+                    Toast.show({
+                        type: ALERT_TYPE.SUCCESS,
+                        title: "Success",
+                        textBody: "successfully reload",
+                    });
+                } catch (err) {
+                    Toast.show({
+                        type: ALERT_TYPE.DANGER,
+                        title: "Failed",
+                        textBody: "an error has occured in clearing",
+                    });
+                } finally {
+                    setEdit(false);
+                }
             },
         },
         {
@@ -46,13 +58,15 @@ export const SettingPage = () => {
                         title: "Failed",
                         textBody: "an error has occured in reload",
                     });
+                } finally {
+                    setEdit(false);
                 }
             },
         },
     ];
     return (
         <Container h='100%' w='100%' maxWidth='100%' bg='blue.100'>
-            <View className=''>
+            <View className='p-2'>
                 <Button
                     onPress={() => {
                         setEdit(!edit);

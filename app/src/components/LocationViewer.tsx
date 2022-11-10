@@ -35,7 +35,7 @@ export const LocationViewer = (props: ILocationViewerProp) => {
             const lat = loc.location?.coordinates[0];
             const long = loc.location?.coordinates[1];
             return (
-                <View className='p-4 my-4 border-2 rounded border-slate-300'>
+                <View className='p-4 my-4 border-2 rounded border-slate-400'>
                     <Text className='font-bold text-md'>
                         Next Location:{loc.locationDescription}
                     </Text>
@@ -62,10 +62,10 @@ export const LocationViewer = (props: ILocationViewerProp) => {
     const renderPasswordPartial = () => {
         if (location.passwordPartial && props.displayPasswordPartial) {
             return (
-                <View className='p-4 my-2 rounded outline outline-1 outline-slate-300'>
+                <View className='p-4 my-2 border-2 rounded border-slate-400'>
                     <Text>
                         <Text className='font-bold text-md'>
-                            Password Partial:{" "}
+                            Passcode Partial:{" "}
                         </Text>
                         {location.passwordPartial.message}
                     </Text>
@@ -78,7 +78,7 @@ export const LocationViewer = (props: ILocationViewerProp) => {
     const renderDestinationPartial = () => {
         if (location.destinationPartial && props.displayDestinationPartial) {
             return (
-                <View className='p-4 my-2 rounded outline outline-1 outline-slate-300'>
+                <View className='p-4 my-2 border-2 rounded border-slate-400'>
                     <Text>
                         <Text className='font-bold text-md'>
                             Destionation Partial:{" "}
@@ -92,7 +92,7 @@ export const LocationViewer = (props: ILocationViewerProp) => {
         }
     };
     return (
-        <View className='p-4 m-4 border-2 rounded outline-slate-300'>
+        <View className='p-4 m-4 border-2 rounded border-slate-400'>
             <View>
                 <Text className='text-xl italic'>
                     from {isNil(name) ? "" : upperFirst(name)} -{" "}
@@ -105,7 +105,7 @@ export const LocationViewer = (props: ILocationViewerProp) => {
                     {location?.locationDescription || "N/A"}
                 </Text>
             </View>
-            <View className='p-4 my-2 rounded outline outline-1 outline-slate-300'>
+            <View className='p-4 my-2 border-2 rounded border-slate-400'>
                 <Text className='font-bold text-md:'> Messages</Text>
                 {message ? (
                     <RenderHtml

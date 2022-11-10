@@ -20,13 +20,13 @@ export const MapViewer = (props: IMapViewerProps) => {
     // console.log(popups);
     // console.log(line);
     return (
-        <View className='w-full h-1/2'>
+        <View className='w-full h-full'>
             <MapView
                 initialRegion={{
                     latitude: 22.2988,
                     longitude: 114.1722,
-                    latitudeDelta: 0.0922,
-                    longitudeDelta: 0.0421,
+                    latitudeDelta: 0.03688,
+                    longitudeDelta: 0.01684,
                 }}
                 style={{ height: "100%", width: "100%" }}>
                 {popups.length > 0 ? (
