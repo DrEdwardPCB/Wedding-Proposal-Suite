@@ -17,6 +17,7 @@ export interface IBaseLocationAction {
 export const locationReducer = (state: IlocationReducerInitialState = locationReducerInitialState, action: IBaseLocationAction): IlocationReducerInitialState => {
     switch (action.type) {
         case ELocationAction.LOCATION_RELOAD: {
+
             let showObj: { [id: string]: boolean } = state.show ?? {};
             (action.payload.locations as Location[]).forEach(element => {
                 if (isNil(showObj[element.id])) {
@@ -67,7 +68,10 @@ export const locationReducer = (state: IlocationReducerInitialState = locationRe
             }
         }
         case ELocationAction.RESET: {
-            return locationReducerInitialState
+            return {
+                locations: [],
+                show: {}
+            }
         }
         default:
             return state
