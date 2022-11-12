@@ -15,7 +15,7 @@ export class GpioController{
     private ledLightTime:number 
     private static instance:GpioController
     
-    private constructor(motorPin:number=16, ledPin:number=26, motorRotateTime:number=500 ,ledLightTime:number = 10000  ){
+    private constructor(motorPin:number=16, ledPin:number=26, motorRotateTime:number=2000 ,ledLightTime:number = 10000  ){
         if(isNil(GpioController.instance)){
             logger.info("initializing GpioController")
             this.motor = new Gpio(motorPin,'out')

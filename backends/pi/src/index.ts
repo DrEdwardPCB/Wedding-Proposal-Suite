@@ -19,11 +19,12 @@ app.get('/',async (req,res)=>{
     res.send()
 })
 const server = app.listen(env.PORT, async function(){
-    const serverUrl = `${env.SERVER_FULL_ADDRESS}/ws/`.replace('http','ws')
+    const serverUrl = `${env.SERVER_FULL_ADDRESS}/ws`.replace('http','ws')
     logger.info(`server starting at port ${env.PORT}`)
     logger.info(`${env.SERVER_FULL_ADDRESS}/ws`.replace('http','ws'))
     const client = new WebSocketClient()
-    client.on("connectFailed", function(){
+    client.on("connectFailed", function(err){
+        logger.error(err)
         logger.error("connection to server socket failed")
     })
     client.on('connect',function(connection){
@@ -42,6 +43,7 @@ const server = app.listen(env.PORT, async function(){
             logger.info("connection closed")
         })
     })
+    client.connect(serverUrl,'echo-protocol')
     // const sc = new StepperController()
     // sc.start()
     // setTimeout(()=>{sc.stop()},1000000)
