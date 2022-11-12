@@ -41,15 +41,20 @@ const server = app.listen(env.PORT, async function(){
         })
         connection.on("close", ()=>{
             logger.info("connection closed")
+            reconnect(client, serverUrl)
         })
     })
-    client.connect(serverUrl,'echo-protocol')
+    reconnect(client, serverUrl)
     // const sc = new StepperController()
     // sc.start()
     // setTimeout(()=>{sc.stop()},1000000)
 
    
 })
+const reconnect =(client:websocket.client, url:string)=>{
+    logger.info("attempting connect")
+    client.connect(url,'echo-protocol')
+}
 const gracefulShutdown = async(callType:any)=>{
     logger.info(`${callType} signal received`)
     GpioController.getInstance().close()
