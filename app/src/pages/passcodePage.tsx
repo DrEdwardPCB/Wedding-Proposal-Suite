@@ -39,45 +39,39 @@ export const PasscodePage = () => {
         (state: RootType) => state.location
     );
     return (
-        <Container
-            h='100%'
-            w='100%'
-            maxWidth='100%'
-            bg='blue.100'
-            className='flex flex-col gap-2'>
-            <View className='flex flex-col flex-1 w-full gap-2'>
-                <Text className='flex-1 p-2 text-lg'>
+        <View className='flex flex-col w-full h-full bg-blue-100'>
+            <View className='flex flex-col w-full'>
+                <Text className='max-w-full p-2 text-lg text-wrap'>
                     <Text>Description:{"\n"}</Text>
-                    After enter the room enter correct passcode to unlock ring
+                    After enter the room enter the correct passcode to unlock
+                    ring
                 </Text>
-                <View className='flex flex-1 w-full'>
+                <View className='flex m-2'>
                     <FormControl>
-                        <Stack space={5}>
-                            <Stack>
-                                <FormControl.Label>Passcode</FormControl.Label>
-                                <Input
-                                    variant='outline'
-                                    p={2}
-                                    placeholder='Passcode'
-                                    value={passcode}
-                                    onChangeText={(val) => {
-                                        setPasscode(val);
-                                    }}
-                                />
-                            </Stack>
+                        <Stack>
+                            <FormControl.Label>Passcode</FormControl.Label>
+                            <Input
+                                w='100%'
+                                variant='outline'
+                                placeholder='Passcode'
+                                value={passcode}
+                                onChangeText={(val) => {
+                                    setPasscode(val);
+                                }}
+                            />
                         </Stack>
                     </FormControl>
                 </View>
-                <View className='flex flex-row flex-1 gap-4 mx-2'>
+                <View className='flex flex-row mx-2 '>
                     <Button
-                        className='flex-1 bg-red-400'
+                        className='flex-1 m-2 bg-red-400'
                         onPress={() => {
                             setPasscode("");
                         }}>
                         Cancel
                     </Button>
                     <Button
-                        className='flex-1'
+                        className='flex-1 m-2'
                         onPress={() => {
                             submitPasscode();
                         }}>
@@ -86,7 +80,7 @@ export const PasscodePage = () => {
                 </View>
             </View>
             <ScrollView
-                className='flex-[3]'
+                className='flex-1 w-full'
                 contentContainerStyle={{
                     display: "flex",
                     alignItems: "stretch",
@@ -128,6 +122,6 @@ export const PasscodePage = () => {
                     }
                 })}
             </ScrollView>
-        </Container>
+        </View>
     );
 };

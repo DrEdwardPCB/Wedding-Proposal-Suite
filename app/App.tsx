@@ -91,7 +91,7 @@ const App = () => {
                                             />
                                         );
                                     },
-                                    tabBarActiveTintColor: "tomato",
+                                    tabBarActiveTintColor: "#35e3f6",
                                     tabBarInactiveTintColor: "gray",
                                 })}>
                                 <Tab.Screen name='Home' component={HomePage} />
@@ -100,7 +100,6 @@ const App = () => {
                                     component={LocationPage}
                                 />
                                 <Tab.Screen
-                                    options={{}}
                                     name='Camera'
                                     component={CameraPage}
                                 />

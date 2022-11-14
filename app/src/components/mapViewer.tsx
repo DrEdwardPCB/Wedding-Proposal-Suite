@@ -35,8 +35,10 @@ export const MapViewer = (props: IMapViewerProps) => {
                             <Marker
                                 key={i}
                                 coordinate={{
-                                    latitude: (e.coordinate as number[])[0],
-                                    longitude: (e.coordinate as number[])[1],
+                                    latitude:
+                                        (e.coordinate as number[])[0] - 0.0008,
+                                    longitude:
+                                        (e.coordinate as number[])[1] + 0.0003,
                                 }}
                                 description={e.message}></Marker>
                         );

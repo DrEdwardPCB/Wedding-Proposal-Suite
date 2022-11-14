@@ -4,6 +4,8 @@ import { Location } from "../utils/entityInterface";
 import RenderHtml from "react-native-render-html";
 import { IMapViewerPopups, MapViewer } from "./mapViewer";
 import { View, Text, useWindowDimensions, Image } from "react-native";
+import { useSelector } from "react-redux";
+import { RootType } from "../redux/reducers/rootReducer";
 // this component will be used for rendering single location
 
 export interface ILocationViewerProp {
@@ -14,6 +16,7 @@ export interface ILocationViewerProp {
 }
 export const LocationViewer = (props: ILocationViewerProp) => {
     const { width } = useWindowDimensions();
+    const { locations } = useSelector((state: RootType) => state.location);
     const { location } = props;
     const name = location?.user?.loginName;
     const message = location?.message;
@@ -34,10 +37,13 @@ export const LocationViewer = (props: ILocationViewerProp) => {
             const loc = location.next;
             const lat = loc.location?.coordinates[0];
             const long = loc.location?.coordinates[1];
+            const nextName = locations.find((e) => e.id === loc.id)?.user
+                ?.loginName;
             return (
                 <View className='p-4 my-4 border-2 rounded border-slate-400'>
                     <Text className='font-bold text-md'>
-                        Next Location:{loc.locationDescription}
+                        Next Location:
+                        {nextName} - {loc.locationDescription}
                     </Text>
                     <View className='w-full h-[500px]'>
                         <MapViewer
