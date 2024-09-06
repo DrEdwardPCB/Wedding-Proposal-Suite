@@ -33,10 +33,10 @@
     "express-winston": "^4.2.0",
     "express-ws": "^5.0.2",
     "geojson": "^0.5.0",
-    "joi": "^17.6.0",
+    "joi": "^17.7.1",
     "lodash": "^4.17.21",
     "onoff": "^6.0.3",
-    "websocket": "^1.0.34",
+    "websocket": "^1.0.35",
     "winston": "^3.8.2"
   }
 }
